@@ -1852,12 +1852,20 @@ body {
 }
 
 .default-header {
-  padding: 25px 0;
+  padding: 0px;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 9;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 捲動超過 banner 後常駐在頂部 */
+.default-header.sticky {
+  position: fixed;
+  background: rgba(20, 20, 20, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .menu-bar {
@@ -1880,6 +1888,8 @@ nav {
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
   transform-origin: 100% 50%;
+  /* 電腦版：永遠展開 */
+  transform: scale(1);
 }
 
 @media (max-width: 767px) {
@@ -1897,11 +1907,23 @@ nav {
     background: #f5204b;
     display: flex;
     flex-direction: column;
+    /* 手機版：預設收起 */
+    transform: scale(0);
+  }
+  .default-header.sticky{
+    display: none;
   }
 }
 
 nav.hide {
   transform: scale(0);
+}
+
+/* 手機版：點漢堡後展開 */
+@media (max-width: 767px) {
+  nav.open {
+    transform: scale(1);
+  }
 }
 
 nav a {
@@ -2640,6 +2662,10 @@ footer .footer-nav li a:hover {
   max-width: 100%;
 }
 
+.default-header.sticky .logo{
+  max-width: 80px;
+}
+
 .property-label {
   padding-right: 5px;
   font-weight: bold
@@ -2829,5 +2855,187 @@ nav a:hover::after {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;
+  }
+}
+
+/* ---- Banner Carousel 全螢幕高度 ---- */
+#bannerCarousel {
+  width: 100%;
+}
+
+#bannerCarousel .carousel-inner {
+  height: 92vh;
+}
+
+#bannerCarousel .carousel-item {
+  height: 92vh;
+}
+
+#bannerCarousel .carousel-item.active,
+#bannerCarousel .carousel-item-next,
+#bannerCarousel .carousel-item-prev {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bannerCarousel .carousel-item .banner-content {
+  text-align: center;
+  padding-bottom: 2rem; /* 避免文字與指示點重疊 */
+}
+
+/* 指示點移到底部並確保可見 */
+#bannerCarousel .carousel-indicators {
+  bottom: 0.5rem;
+}
+
+#bannerCarousel .carousel-indicators [data-bs-target] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  border: none;
+}
+
+#bannerCarousel .carousel-indicators .active {
+  background-color: #fff;
+}
+
+@media (max-width: 767px) {
+  #bannerCarousel .carousel-inner,
+  #bannerCarousel .carousel-item {
+    height: 600px;
+  }
+}
+
+/* ============================================================
+   手機版浮動圓形導覽選單 (FAB)
+   僅在 ≤767px 顯示，捲到 exprience-area 後淡入
+   ============================================================ */
+#mobile-fab-wrap {
+  display: none; /* 電腦版完全隱藏 */
+}
+
+@media (max-width: 767px) {
+  /* 按鈕容器：固定在右下角，只包住按鈕本身 */
+  #mobile-fab-wrap {
+    display: block;
+    position: fixed;
+    right: 20px;
+    bottom: 24px;
+    z-index: 1000;
+    /* FAB 本身的出現動畫 */
+    opacity: 0;
+    transform: scale(0.6) translateY(12px);
+    pointer-events: none;
+    transition:
+      opacity   0.35s cubic-bezier(0.25, 1, 0.5, 1),
+      transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  #mobile-fab-wrap.is-visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+  }
+
+  /* 選單：絕對定位在按鈕正上方，向上展開 */
+  #mobile-fab-menu {
+    position: absolute;
+    bottom: calc(100% + 10px); /* 按鈕高度之上 + 間距 */
+    right: 0;
+    /* 整塊長方形面板 */
+    display: flex;
+    flex-direction: column;
+    background: #f5204b;
+    border-radius: 6px;
+    overflow: hidden;
+    min-width: 140px;
+    /* 預設收合 */
+    opacity: 0;
+    transform: translateY(10px) scaleY(0.85);
+    transform-origin: bottom right;
+    pointer-events: none;
+    transition:
+      opacity   0.25s cubic-bezier(0.25, 1, 0.5, 1),
+      transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* 展開狀態 */
+  #mobile-fab-wrap.fab-open #mobile-fab-menu {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    pointer-events: auto;
+  }
+
+  /* 選單連結：全寬，中間有分隔線 */
+  #mobile-fab-menu a {
+    display: block;
+    padding: 13px 22px;
+    color: #fff !important;
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-align: right;
+    margin: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.15s ease;
+  }
+
+  #mobile-fab-menu a:last-child {
+    border-bottom: none;
+  }
+
+  /* 蓋掉 nav a::after 的底線動畫 */
+  #mobile-fab-menu a::after {
+    display: none !important;
+  }
+
+  #mobile-fab-menu a:hover,
+  #mobile-fab-menu a:active {
+    background: rgba(0, 0, 0, 0.18);
+    color: #fff !important;
+  }
+
+  /* 圓形觸發按鈕 */
+  #mobile-fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #f5204b;
+    color: #fff;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(245, 32, 75, 0.45);
+    transition:
+      background 0.2s ease,
+      transform  0.25s cubic-bezier(0.25, 1, 0.5, 1),
+      box-shadow 0.2s ease;
+  }
+
+  #mobile-fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 24px rgba(245, 32, 75, 0.55);
+  }
+
+  #mobile-fab:active {
+    transform: scale(0.95);
+  }
+
+  /* 開啟狀態：按鈕變深色 */
+  #mobile-fab-wrap.fab-open #mobile-fab {
+    background: #222;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  }
+
+  #mobile-fab i {
+    color: #fff;
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   }
 }

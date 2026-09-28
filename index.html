@@ -45,7 +45,7 @@
 		<link rel="stylesheet" href="css/font-awesome/all.css">
 		<link rel="stylesheet" href="css/nice-select.css">
 		<link rel="stylesheet" href="css/magnific-popup.css">
-		<link rel="stylesheet" href="bootstrap-5.2.3/css/bootstrap.min.css">
+		<link rel="stylesheet" href="packages/bootstrap-5.2.3/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/main.css">
 
 		<!-- Facebook Pixel Code -->
@@ -86,20 +86,21 @@
 		<!-- End Google Tag Manager (noscript) -->
 		<!-- Start Header Area -->
 		<header class="default-header">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="header-wrap">
 					<div class="header-top d-flex justify-content-between align-items-center">
 						<div class="logo">
 							<a href="index.html"><img src="img/logo.png" alt=""></a>
 						</div>
 						<div class="main-menubar d-flex align-items-center">
-							<nav class="hide">
+							<nav>
 								<a href="#who-are-we">我們是誰</a>
 								<a href="#what-we-do">行動</a>
 								<a href="#archivement">成果</a>
 								<a href="#support-us">支持我們</a>
+								<a href="">Social Medias</a>
 							</nav>
-							<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
+							<div class="menu-bar d-lg-none"><span class="lnr lnr-menu"></span></div>
 						</div>
 					</div>
 				</div>
@@ -112,18 +113,46 @@
 			<div class="container">
 				<div class="row fullscreen align-items-center justify-content-center">
 					<div class="col-lg-12">
-						<div class="banner-content">
-							<h1>假新聞清潔劑</h1>
-							<p class="text-white mb-40">從每一個人、每一個家庭開始，一起累積社會的資訊韌性，修復彼此的信任，讓下一代也能在更健康的資訊環境中成長。</p>
-							</p>
+						<!-- Start Carousel -->
+						<div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+							<!-- 指示點 -->
+							<div class="carousel-indicators">
+								<button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+								<button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+								<button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+							</div>
+							<!-- 輪播內容 -->
+							<div class="carousel-inner text-center">
+								<div class="carousel-item active">
+									<div class="banner-content">
+										<h1>假新聞清潔劑</h1>
+										<p class="text-white mb-40">從每一個人、每一個家庭開始，一起累積社會的資訊韌性，修復彼此的信任，讓下一代也能在更健康的資訊環境中成長。</p>
+									</div>
+								</div>
+								<div class="carousel-item">
+									<div class="banner-content">
+										<h1>資訊識讀教育</h1>
+										<p class="text-white mb-40">提供系統性的媒體識讀課程，培養大眾辨別真假資訊的能力，共同建立更可信賴的資訊生態。</p>
+									</div>
+								</div>
+								<div class="carousel-item">
+									<div class="banner-content">
+										<h1>一起對抗假新聞</h1>
+										<p class="text-white mb-40">匯聚各方力量，透過科技與教育雙管齊下，守護民主社會的資訊自由與真實。</p>
+									</div>
+								</div>
+							</div>
 						</div>
+						<!-- End Carousel -->
 					</div>
+					<!--
 					<div class="banner-button-wrapper">
 						<a href="#who-are-we" class="genric-btn primary circle" target="_blank"><i
 								class="fas fa-caret-down"></i>認識我們</a>
 						<a href="#support-us" class="genric-btn primary ms-20 circle" target="_blank"><i
 								class="fas fa-caret-down"></i>支持我們</a>
 					</div>
+					-->
 				</div>
 			</div>
 		</section>
@@ -132,14 +161,21 @@
 		<section class="section-gap exprience-area" id="who-are-we">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-6 mb-sm-20">
+					<div class="col-md-4 mb-sm-20">
 						<div class="exprience-thumb" style="background: url(img/back.jpg);"></div>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-lg-8">
 						<div class="exprience-content">
 							<h2>我們是誰？</h2>
-							<p>我們是由一群關心社會的公民自發組成。在各種社會服務關懷機構，運用生活案例以及透過互動方式，告訴群眾社群媒體和網路的現況及危害，並向群眾分享如何用手機查證、辨識有害訊息、培養思辨能力。</p>
-							<p>2018年12月，發起了「假新聞清潔劑」，用業餘時間到登山口、菜市場等地，舉辦街頭行動，以及開設媒體識讀課程。透過面對面接觸，引導群眾對假新聞有所警覺，提升全方面的資訊素養。</p>
+							<p>假新聞清潔劑於 2018 年 12 月，由一群關心社會的青年、上班族與父母自發組成。</p>
+							<p>我們看見，網路與科技已經成為生活的一部分，也讓我們面對的資訊風險越來越複雜：
+								<ul>
+									<li>ㄧ篇新奇有趣的網路貼文新知，可能是錯誤資訊或詐騙</li>
+									<li>一則照片或影音，也可能是 AI 生成的內容</li>
+									<li>我們每天使用網路，住址等資訊，卻不一定知道它們最後被誰掌握、可能帶來什麼風險</li>
+								</ul>
+							</p>
+							<p>時間軸、願景、核心價值、使命（個別按鈕取代我們是誰區塊的文字）</p>
 							<a href="#what-we-do" class="genric-btn primary circle"><i class="fas fa-caret-down"></i>我們做了什麼？</a>
 						</div>
 					</div>
@@ -148,6 +184,7 @@
 		</section>
 		<!-- End Exprience Area -->
 		<!-- Start Service Area -->
+		<!--
 		<section class="carousel-area gap-1 section-gap relative">
 			<div class="overlay overlay-bg"></div>
 			<div class="container">
@@ -163,11 +200,13 @@
 				</div>
 			</div>
 		</section>
+		-->
 		<!-- End Service Area -->
 		<!-- Start Projects Area -->
 		<section class="service-area-2" id="what-we-do">
+			<!-- 活動類型改這種形式顯示：https://essential-addons.com/image-accordion/ -->
 			<div class="container">
-				<h2 class="text-align-center">從每個人都能做的小事開始</h2>
+				<h2 class="text-align-center">我們在做什麼</h2>
 				<div class="row">
 					<div class="col-md-4 col-sm-6">
 						<div class="single-service d-flex justify-content-between align-items-center">
@@ -241,8 +280,15 @@
 				</div>
 			</div>
 		</section>
-		<!-- Start Projects Area -->
+		<!-- Start recent activity -->
+		<section class="service-area-2" id="recent-activity">
+			<!-- 活動類型改這種形式顯示：https://essential-addons.com/image-accordion/ -->
+			<div class="container">
+				<h2 class="text-align-center">近期活動（3個）</h2>
+			</div>
+		</section>
 		<!-- Start Video Area -->
+		<!--
 		<section class="video-area section-gap relative">
 			<div class="overlay overlay-bg"></div>
 			<div class="container">
@@ -257,14 +303,16 @@
 				</div>
 			</div>
 		</section>
+		-->
 		<!-- End Video Area -->
 		<!-- Start Projects Area -->
 		<section class="service-area" id="archivement">
+			<!-- 左邊 Total 數字，右邊台灣，點擊某縣市後左邊顯示該地區成果數字與小故事（預計分北中南） -->
 			<div class="container">
 				<h2>我們的成果</h2>
 				<div class="row">
 					<div class="col-sm-12">
-						<p>自 2018 年成立，至 2025 年 12 月為止，我們的足跡已遍佈從北至南每一個縣市。</p>
+						<p>自 2018 年成立，至 2025 年 12 月為止，我們的足跡已遍佈從北至南每一個縣市。（之後要有地圖）</p>
 					</div>
 					<div class="col-lg-3 col-sm-6">
 						<div class="single-service d-flex flex-column align-items-center">
@@ -312,9 +360,18 @@
 				</div>
 			</div>
 		</section>
-		<!-- Start Projects Area -->
+		<!-- Start Aritcle Area -->
+		 <section class="service-area" id="news">
+			<!-- 左邊 Total 數字，右邊台灣，點擊某縣市後左邊顯示該地區成果數字與小故事（預計分北中南） -->
+			<div class="container">
+				<h2>文章＆報導</h2>
+				<div class="row">
+					
+				</div>
+			</div>
+		</section>
 		<!-- Start Service Area -->
-		<section class="section-gap-3 section-gap relative">
+		<!--<section class="section-gap-3 section-gap relative">
 			<div class="overlay overlay-bg"></div>
 			<div class="container">
 				<div class="row justify-content-end align-items-center">
@@ -329,6 +386,7 @@
 				</div>
 			</div>
 		</section>
+		-->
 		<!-- End Service Area -->
 		<!-- Start Contact Area -->
 		<section class="section-gap contact-area" id="support-us">
@@ -350,7 +408,6 @@
 			</div>
 		</section>
 		<!-- Start Contact Area -->
-
 		<!-- Strat Footer Area -->
 		<footer class="section-gap">
 			<div class="container">
@@ -413,6 +470,20 @@
 			</div>
 		</footer>
 		<!-- End Footer Area -->
+
+		<!-- 手機版浮動圓形選單 -->
+		<div id="mobile-fab-wrap">
+			<div id="mobile-fab-menu" role="navigation" aria-label="浮動導覽選單">
+				<a href="#who-are-we">我們是誰</a>
+				<a href="#what-we-do">行動</a>
+				<a href="#archivement">成果</a>
+				<a href="#support-us">支持我們</a>
+				<a href="">Social Medias</a>
+			</div>
+			<button id="mobile-fab" aria-label="開啟選單" aria-expanded="false" aria-controls="mobile-fab-menu">
+				<i class="lnr lnr-menu" aria-hidden="true"></i>
+			</button>
+		</div>
 
 		<script src="js/vendor/jquery-2.2.4.min.js"></script>
 		<script src="js/vendor/bootstrap.bundle.min.js"></script>
