@@ -6,16 +6,17 @@
 /* =================================== */
 /*  Basic Style 
 /* =================================== */
+/* 配色：https://coolors.co/adadad-e0e1e0-d3d9d6-f2e8e4-f7dfe0-f4acb7-f87791-685057 */
 ::-moz-selection {
   /* Code for Firefox */
-  background-color: #f5204b;
+  background-color: #F87791;
   color: #fff;
 }
 
 ::selection {
-  background-color: #f5204b;
+  background-color: #F87791;
   color: #fff;
-}
+}s
 
 ::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
@@ -742,7 +743,7 @@ td, th {
 }
 
 b, i, sup, sub, u, del {
-  color: #f5204b;
+  color: #F87791;
 }
 
 h1 {
@@ -877,7 +878,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .genric-btn.primary {
   color: #fff;
-  background: #f5204b;
+  background: #F87791;
   border: 1px solid transparent;
 }
 
@@ -888,24 +889,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .genric-btn.primary:hover {
-  color: #f5204b;
-  border: 1px solid #f5204b;
+  color: #F87791;
+  border: 1px solid #F87791;
   background: #fff;
 }
 
 .genric-btn.primary:hover i {
-  color: #f5204b;
+  color: #F87791;
 }
 
 .genric-btn.primary-border {
-  color: #f5204b;
-  border: 1px solid #f5204b;
+  color: #F87791;
+  border: 1px solid #F87791;
   background: #fff;
 }
 
 .genric-btn.primary-border:hover {
   color: #fff;
-  background: #f5204b;
+  background: #F87791;
   border: 1px solid transparent;
 }
 
@@ -1041,7 +1042,7 @@ h1, h2, h3, h4, h5, h6 {
 .generic-blockquote {
   padding: 30px 50px 30px 30px;
   background: #f9f9ff;
-  border-left: 2px solid #f5204b;
+  border-left: 2px solid #F87791;
 }
 
 .progress-table-wrap {
@@ -1170,7 +1171,7 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   width: 14px;
   height: 14px;
-  border: 3px solid #f5204b;
+  border: 3px solid #F87791;
   background: #fff;
   top: 4px;
   left: 0;
@@ -1183,7 +1184,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .ordered-list li {
   list-style-type: decimal-leading-zero;
-  color: #f5204b;
+  color: #F87791;
   font-weight: 500;
   line-height: 1.82em !important;
 }
@@ -1196,7 +1197,7 @@ h1, h2, h3, h4, h5, h6 {
 .ordered-list-alpha li {
   margin-left: 30px;
   list-style-type: lower-alpha;
-  color: #f5204b;
+  color: #F87791;
   font-weight: 500;
   line-height: 1.82em !important;
 }
@@ -1209,7 +1210,7 @@ h1, h2, h3, h4, h5, h6 {
 .ordered-list-roman li {
   margin-left: 30px;
   list-style-type: lower-roman;
-  color: #f5204b;
+  color: #F87791;
   font-weight: 500;
   line-height: 1.82em !important;
 }
@@ -1281,7 +1282,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .single-input-primary:focus {
   outline: none;
-  border: 1px solid #f5204b;
+  border: 1px solid #F87791;
 }
 
 .single-input-accent {
@@ -1342,7 +1343,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background: #f5204b;
+  background: #F87791;
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
   -o-transition: all 0.2s;
@@ -1425,7 +1426,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .primary-switch input:checked + label:before {
-  background: #f5204b;
+  background: #F87791;
 }
 
 .confirm-switch {
@@ -1774,12 +1775,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .default-select .nice-select .list .option.selected {
-  color: #f5204b;
+  color: #F87791;
   background: transparent;
 }
 
 .default-select .nice-select .list .option:hover {
-  color: #f5204b;
+  color: #F87791;
   background: transparent;
 }
 
@@ -1829,12 +1830,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .form-select .nice-select .list .option.selected {
-  color: #f5204b;
+  color: #F87791;
   background: transparent;
 }
 
 .form-select .nice-select .list .option:hover {
-  color: #f5204b;
+  color: #F87791;
   background: transparent;
 }
 
@@ -1864,8 +1865,8 @@ body {
 /* 捲動超過 banner 後常駐在頂部 */
 .default-header.sticky {
   position: fixed;
-  background: rgba(20, 20, 20, 0.95);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  background: #685057;
+  box-shadow: 0 2px 8px rgba(104, 80, 87, 0.45);
 }
 
 .menu-bar {
@@ -1904,7 +1905,7 @@ nav {
     text-align: right;
     padding: 20px 0;
     z-index: 5;
-    background: #f5204b;
+    background: #685057;
     display: flex;
     flex-direction: column;
     /* 手機版：預設收起 */
@@ -1973,7 +1974,7 @@ nav a:hover {
   border-radius: 20px;
   background: transparent;
   border: 1px solid #eee;
-  color: #f5204b;
+  color: #F87791;
   display: inline-block;
   font-weight: 500;
   position: relative;
@@ -1993,8 +1994,8 @@ nav a:hover {
 }
 
 .primary-btn:hover {
-  background: #f5204b;
-  border: 1px solid #f5204b;
+  background: #F87791;
+  border: 1px solid #F87791;
   color: #fff;
 }
 
@@ -2002,9 +2003,13 @@ nav a:hover {
   background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(../img/talk4.jpg) no-repeat center center/cover;
 }
 
+.banner-area .fullscreen {
+  min-height: 100vh;
+}
+
 @media (max-width: 767px) {
   .banner-area .fullscreen {
-    height: 600px !important;
+    min-height: 600px;
   }
 }
 
@@ -2013,7 +2018,7 @@ nav a:hover {
   font-weight: 600;
   line-height: 1.2em;
   margin-bottom: 20px;
-  color: #f5204b;
+  color: #F87791;
 }
 
 @media (max-width: 767px) {
@@ -2044,7 +2049,7 @@ nav a:hover {
 }
 
 .generic-banner {
-  background: #f5204b;
+  background: #F87791;
 }
 
 .generic-banner .height {
@@ -2092,23 +2097,23 @@ nav a:hover {
   }
 }
 
-.exprience-content {
+.who-we-are-content {
   padding: 20px 0 30px 0;
 }
 
-.exprience-content h2 {
+.who-we-are-content h2 {
   font-size: 36px;
   margin-bottom: 20px;
 }
 
-.exprience-content h6 {
+.who-we-are-content h6 {
   font-size: 16px;
   font-weight: 400;
   color: #222222;
   margin-bottom: 20px;
 }
 
-.exprience-content p {
+.who-we-are p {
   margin-bottom: 30px;
 }
 
@@ -2143,7 +2148,7 @@ nav a:hover {
   font-size: 36px;
   line-height: 1.25em;
   margin-bottom: 20px;
-  color: #f5204b;
+  color: #F87791;
 }
 
 @media (max-width: 767px) {
@@ -2196,39 +2201,36 @@ nav a:hover {
 }
 
 .carousel-area .carousel-trigger .next-trigger:hover, .carousel-area .carousel-trigger .prev-trigger:hover {
-  background: #f5204b;
-  border: 1px solid #f5204b;
+  background: #F87791;
+  border: 1px solid #F87791;
 }
 
 .carousel-area .carousel-trigger .next-trigger:hover span, .carousel-area .carousel-trigger .prev-trigger:hover span {
   color: #fff;
 }
 
-.exprience-area .vector-thumb {
+/* --- #who-are-we（原 .section-gap + .exprience-area） --- */
+#who-are-we {
+  padding: 80px 0;
+}
+#who-are-we .vector-thumb {
   margin-top: 30px;
   max-height: 350px;
   text-align: center;
 }
 
-.exprience-area .vector-content {
+#who-are-we .vector-content {
   margin-left: 30px;
 }
 
-.exprience-area .vector-content h4 {
+#who-are-we .vector-content h4 {
   margin-top: 10px;
   font-weight: 300;
   margin-bottom: 20px;
 }
 
-.service-area {
-  background: #f9faff;
-  padding: 90px 0 120px 0;
-}
-
-.service-area .single-service .desc h4 {
-  font-size: 24px;
-}
-
+/* --- 共用於 #what-we-do、#recent-activity 的 icon card 樣式 --- */
+/* --- 共用於 #achievement、#news 的數字統計 .single-service 基礎樣式 --- */
 .single-service {
   margin-top: 30px;
   text-align: center;
@@ -2239,12 +2241,17 @@ nav a:hover {
   width: auto;
   height: 130px;
   font-size: 110px;
-  color: #f5204b;
+  color: #F87791;
   text-align: center;
   line-height: 200px;
   left: 50%;
   transform: translateX(-50%);
   word-break: keep-all;
+}
+.single-service .label {
+  font-size: 40px;
+  color: #F87791;
+  line-height: 200px;
 }
 
 .single-service .desc h4 {
@@ -2257,17 +2264,20 @@ nav a:hover {
   margin-bottom: 0px;
 }
 
-.service-area-2 {
+/* --- #what-we-do（原 .service-area-2） --- */
+#what-we-do {
+  background: #D3D9D6;
   padding: 90px 0 120px 0;
 }
 
-.service-area-2 .single-service {
+#what-we-do .single-service {
   margin-top: 30px;
   text-align: center;
   align-items: stretch;
+  position: relative;
 }
 
-.service-area-2 .single-service .icon {
+#what-we-do .single-service .icon {
   width: 90px;
   height: 90px;
   display: -webkit-box;
@@ -2282,25 +2292,214 @@ nav a:hover {
   transform: translateX(-50%);
 }
 
-.service-area-2 .single-service .icon span {
+#what-we-do .single-service .icon span {
   margin: auto;
   font-size: 64px;
-  color: #f5204b;
+  color: #F87791;
   font-weight: 600;
 }
 
-.service-area-2 .single-service .desc {
+#what-we-do .single-service .desc {
   width: 100%;
   text-align: center;
 }
 
-.service-area-2 .single-service .desc h4 {
+#what-we-do .single-service .desc h4 {
   font-weight: 500;
   font-size: 18px;
 }
 
-.service-area-2 .single-service .desc p {
+#what-we-do .single-service .desc p {
   margin-bottom: 0px;
+}
+
+/* --- #recent-activity（原 .service-area-2） --- */
+#recent-activity {
+  background: white;
+  padding: 90px 0 120px 0;
+}
+
+#recent-activity .single-service {
+  margin-top: 30px;
+  text-align: center;
+  align-items: stretch;
+  position: relative;
+}
+
+#recent-activity .single-service .icon {
+  width: 90px;
+  height: 90px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 3px;
+  position: absolute;
+  left: 50%;
+  top: 60px;
+  transform: translateX(-50%);
+}
+
+#recent-activity .single-service .icon span {
+  margin: auto;
+  font-size: 64px;
+  color: #F87791;
+  font-weight: 600;
+}
+
+#recent-activity .single-service .desc {
+  width: 100%;
+  text-align: center;
+}
+
+#recent-activity .single-service .desc h4 {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+#recent-activity .single-service .desc p {
+  margin-bottom: 0px;
+}
+
+/* --- #achievement（原 .service-area） --- */
+#achievement {
+  background: #F7DFE0;
+  padding: 90px 0 120px 0;
+}
+
+#achievement .single-service .desc h4 {
+  font-size: 24px;
+}
+
+/* --- #news 文章＆報導 --- */
+#news {
+  background: #F2E8E4;
+  padding: 90px 0 120px 0;
+}
+
+/* 標題裝飾線 */
+#news .container > h2 {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 48px;
+}
+#news .container > h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 48px;
+  height: 3px;
+  background: #F87791;
+  border-radius: 2px;
+}
+
+/* card 欄間距 */
+.news-card-row {
+  --bs-gutter-x: 28px;
+  --bs-gutter-y: 28px;
+}
+
+/* 讓同一排的 card 等高 */
+.news-card-col {
+  display: flex;
+}
+
+/* card 本體 */
+.news-card {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(173, 173, 173, 0.45);
+  transition:
+    transform 0.3s var(--ease-out-quart),
+    box-shadow 0.3s var(--ease-out-quart);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.news-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(173, 173, 173, 0.65);
+}
+
+/* 圖片區塊：固定高度，zoom on hover */
+.news-card-img-wrap {
+  overflow: hidden;
+  height: 200px;
+  flex-shrink: 0;
+}
+
+.news-card-img-wrap .card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease-out-quart);
+}
+
+.news-card:hover .news-card-img-wrap .card-img-top {
+  transform: scale(1.06);
+}
+
+/* card body：flex grow 讓按鈕永遠貼底部 */
+.news-card .card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 24px;
+}
+
+.news-card .card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 10px;
+  line-height: 1.45;
+}
+
+.news-card .card-text {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.7;
+  flex: 1;          /* 推按鈕到底部 */
+  margin-bottom: 20px;
+}
+
+/* 品牌色按鈕 */
+.news-btn {
+  align-self: flex-start;
+  background: #F87791;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition:
+    background 0.2s ease,
+    transform  0.18s var(--ease-out-quart),
+    box-shadow 0.18s var(--ease-out-quart);
+}
+
+.news-btn:hover {
+  background: #685057;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(104, 80, 87, 0.35);
+}
+
+.news-btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
+}
+
+/* 舊 single-service 相容（保留，不影響新結構） */
+#news .single-service .desc h4 {
+  font-size: 24px;
 }
 
 .video-area {
@@ -2408,7 +2607,7 @@ nav a:hover {
 }
 
 .single-address:hover .icon {
-  background: #f5204b;
+  background: #F87791;
 }
 
 .single-address:hover .icon span {
@@ -2416,7 +2615,7 @@ nav a:hover {
 }
 
 .contact-area {
-  background: #f9faff;
+  background: #F7DFE0;
 }
 
 .contact-form {
@@ -2529,11 +2728,11 @@ nav a:hover {
 }
 
 .subscription .info.error {
-  color: #f5204b;
+  color: #F87791;
 }
 
 footer {
-  background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../img/footer2.jpg) no-repeat center center;
+  background: linear-gradient(rgba(104, 80, 87, 0.85), rgba(104, 80, 87, 0.92)), url(../img/footer2.jpg) no-repeat center center;
   background-size: cover;
 }
 
@@ -2550,7 +2749,7 @@ footer .footer-nav li a {
 }
 
 footer .footer-nav li a:hover {
-  color: #f5204b;
+  color: #F87791;
 }
 
 .instafeed {
@@ -2583,15 +2782,15 @@ footer .footer-nav li a:hover {
 }
 
 .footer-bottom .footer-text i {
-  color: #f5204b;
+  color: #F87791;
 }
 
 .footer-bottom .footer-text a {
-  color: #f5204b;
+  color: #F87791;
 }
 
 .footer-bottom .footer-text a:hover {
-  color: #f5204b;
+  color: #F87791;
 }
 
 @media (max-width: 767px) {
@@ -2619,7 +2818,7 @@ footer .footer-nav li a:hover {
 }
 
 .footer-social a:hover {
-  background: #f5204b;
+  background: #F87791;
 }
 
 .about-generic-area {
@@ -2675,29 +2874,28 @@ footer .footer-nav li a:hover {
    Layout & Rhythm Improvements
    ============================================================ */
 
-/* 1. Section heading breathing room
-   Headings had margin-bottom: 0 — content grids began immediately below */
-.service-area-2 .container > h2 {
+/* 1. Section heading breathing room */
+#what-we-do .container > h2,
+#recent-activity .container > h2 {
   margin-bottom: 48px;
 }
-.service-area .container > h2 {
+#achievement .container > h2,
+#news .container > h2 {
   margin-bottom: 20px;
 }
-.service-area .container > .col-sm-12:first-of-type > p {
+#achievement .container > .col-sm-12:first-of-type > p {
   margin-bottom: 40px;
 }
 .contact-area .container > h2 {
   margin-bottom: 60px;
 }
 
-/* 2. Stats numbers: replace fragile absolute-position with normal flow
-   Original: position:absolute + margin-top:140px on label as a workaround
-   Fix: static positioning, numbers stay in flex column naturally */
-.service-area .single-service {
+/* 2. Stats numbers: static positioning in normal flow */
+#achievement .single-service {
   margin-top: 48px;
   position: relative;
 }
-.service-area .single-service .number {
+#achievement .single-service .number {
   position: static;
   transform: none;
   left: auto;
@@ -2705,14 +2903,21 @@ footer .footer-nav li a:hover {
   width: auto;
   font-size: 80px;
   line-height: 1;
-  color: #f5204b;
+  color: #F87791;
   text-align: center;
   font-weight: 700;
 }
-.service-area .single-service .desc {
+#achievement .single-service .label {
+  font-size: 40px;
+  line-height: 1;
+  color: #F87791;
+  text-align: left;
+  font-weight: 700;
+}
+#achievement .single-service .desc {
   margin-top: 16px !important;
 }
-.service-area .single-service .desc h4 {
+#achievement .single-service .desc h4 {
   margin-top: 0 !important;
   font-size: 17px;
   font-weight: 500;
@@ -2721,13 +2926,16 @@ footer .footer-nav li a:hover {
   text-transform: none;
 }
 
-/* 3. Service-area-2 action cards: restored original large icon above text.
-   Original absolute-positioned icon layout is intentional — no overrides needed. */
+/* 3. Icon cards (#what-we-do, #recent-activity): padding-top 為絕對定位 icon 留空間 */
+#what-we-do .single-service,
+#recent-activity .single-service {
+  padding-top: 170px;
+}
 
 /* 4. Experience ("who are we") section: generous content offset from image */
 @media (min-width: 992px) {
-  .exprience-content {
-    padding: 0 0 0 48px;
+  .who-we-are-content {
+    padding: 0 0 0 24px;
   }
 }
 
@@ -2758,13 +2966,14 @@ footer .footer-nav li:first-child {
 
 /* 8. Responsive: stack stats cleanly on mobile */
 @media (max-width: 575px) {
-  .service-area .single-service {
+  #achievement .single-service {
     margin-top: 32px;
   }
-  .service-area .single-service .number {
+  #achievement .single-service .number {
     font-size: 64px;
   }
-  .service-area-2 .single-service {
+  #what-we-do .single-service,
+  #recent-activity .single-service {
     padding: 20px 4px;
   }
 }
@@ -2822,7 +3031,7 @@ footer .footer-nav li:first-child {
 }
 .genric-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(245, 32, 75, 0.25);
+  box-shadow: 0 8px 24px rgba(244, 172, 183, 0.5);
 }
 .genric-btn:active {
   transform: translateY(0) scale(0.97);
@@ -2841,7 +3050,7 @@ nav a::after {
   left: 0;
   width: 0;
   height: 2px;
-  background: #f5204b;
+  background: #F87791;
   transition: width 0.25s var(--ease-out-quart);
 }
 nav a:hover::after {
@@ -2887,9 +3096,10 @@ nav a:hover::after {
 /* 指示點移到底部並確保可見 */
 #bannerCarousel .carousel-indicators {
   bottom: 0.5rem;
+  gap: 8px;
 }
 
-#bannerCarousel .carousel-indicators [data-bs-target] {
+#bannerCarousel .carousel-indicators button {
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -2897,7 +3107,7 @@ nav a:hover::after {
   border: none;
 }
 
-#bannerCarousel .carousel-indicators .active {
+#bannerCarousel .carousel-indicators button.active {
   background-color: #fff;
 }
 
@@ -2947,7 +3157,7 @@ nav a:hover::after {
     /* 整塊長方形面板 */
     display: flex;
     flex-direction: column;
-    background: #f5204b;
+    background: #685057;
     border-radius: 6px;
     overflow: hidden;
     min-width: 140px;
@@ -3006,7 +3216,7 @@ nav a:hover::after {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: #f5204b;
+    background: #F87791;
     color: #fff;
     font-size: 24px;
     border: none;
@@ -3039,3 +3249,507 @@ nav a:hover::after {
     transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   }
 }
+
+/* accordion style */
+
+/* accordion-wrap 是放在 #what-we-do 裡的實際容器，
+   使用 position:relative 讓前後按鈕的絕對定位有依據 */
+.accordion-wrap {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .accordion-wrap {
+    height: auto;
+  }
+}
+
+/* slide 裡的標題覆蓋全域 h2 黑色 */
+.accordion-slider .slide h2 {
+  color: #fff;
+}
+
+.slider-container {
+	width: 100%;
+	max-width: 1200px;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.now-showing {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	color: #9fff6b;
+	font-size: 14px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	z-index: 10;
+}
+
+.now-showing::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	background: #9fff6b;
+	border-radius: 50%;
+}
+
+.accordion-slider {
+	display: flex;
+	height: 100%;
+	position: relative;
+}
+
+.accordion-slider .slide {
+	flex: 1;
+	position: relative;
+	cursor: pointer;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+	overflow: hidden;
+	filter: grayscale(1);
+}
+
+.accordion-slider .slide:hover {
+	filter: grayscale(0);
+}
+
+.accordion-slider .slide.active {
+	flex: 2.5;
+	filter: grayscale(0);
+}
+
+.accordion-slider .slide::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 80%);
+}
+
+.accordion-slider .slide-content {
+	position: absolute;
+	bottom: 30px;
+	left: 30px;
+	right: 30px;
+	color: white;
+	z-index: 2;
+}
+
+.accordion-slider .slide.active .slide-content {
+	bottom: 80px;
+	transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+}
+
+.accordion-slider .slide-number {
+	font-size: 64px;
+	font-weight: 300;
+	color: rgba(255, 255, 255, 0.6);
+	line-height: 1;
+	position: absolute;
+	bottom: 30px;
+	left: 30px;
+	transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-slider .slide.active .slide-number {
+	bottom: auto;
+	top: -50px;
+	font-size: 48px;
+	left: 0;
+}
+
+.accordion-slider .slide-title {
+	font-size: 20px;
+	font-weight: 600;
+	color: rgba(255, 255, 255, 0.8);
+	margin-bottom: 5px;
+	/*transform: rotate(-90deg);*/
+	transform-origin: left bottom;
+	position: absolute;
+	bottom: 100px;
+	left: 30px;
+	white-space: nowrap;
+	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-slider .slide.active .slide-title {
+	font-size: 28px;
+	font-weight: 700;
+	color: #fff;
+	opacity: 1;
+	transform: translateY(0);
+	transform-origin: unset;
+	position: static;
+	transition-delay: 0.2s;
+}
+
+.accordion-slider .slide-subtitle {
+	font-size: 16px;
+	color: rgba(255, 255, 255, 0.8);
+	margin-bottom: 20px;
+	opacity: 0;
+	transform: translateY(30px);
+	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	transition-delay: 0s;
+}
+
+.accordion-slider .slide.active .slide-subtitle {
+	opacity: 1;
+	transform: translateY(0);
+	transition-delay: 0.4s;
+}
+
+.accordion-slider .car-specs {
+	opacity: 0;
+	transform: translateY(30px);
+	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	transition-delay: 0s;
+}
+
+.accordion-slider .slide.active .car-specs {
+	opacity: 1;
+	transform: translateY(0);
+	transition-delay: 0.5s;
+}
+
+.accordion-slider .spec-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 6px;
+	font-size: 14px;
+	opacity: 0;
+	transform: translateX(-20px);
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-slider .slide.active .spec-row {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.accordion-slider .slide.active .spec-row:nth-child(1) {
+	transition-delay: 0.6s;
+}
+.accordion-slider .slide.active .spec-row:nth-child(2) {
+	transition-delay: 0.65s;
+}
+.accordion-slider .slide.active .spec-row:nth-child(3) {
+	transition-delay: 0.7s;
+}
+.accordion-slider .slide.active .spec-row:nth-child(4) {
+	transition-delay: 0.75s;
+}
+
+.accordion-slider .spec-label {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.accordion-slider .spec-value {
+	color: white;
+	font-weight: 600;
+}
+
+.accordion-slider .performance-badges {
+	display: flex;
+	gap: 12px;
+	margin-top: 15px;
+	opacity: 0;
+	transform: translateY(30px);
+	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	transition-delay: 0s;
+}
+
+.accordion-slider .slide.active .performance-badges {
+	opacity: 1;
+	transform: translateY(0);
+	transition-delay: 0.8s;
+}
+
+.accordion-slider .badge {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 8px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	font-size: 12px;
+	font-weight: 500;
+	opacity: 0;
+	transform: scale(0.8);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-slider .slide.active .badge {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.accordion-slider .slide.active .badge:nth-child(1) {
+	transition-delay: 0.85s;
+}
+.accordion-slider .slide.active .badge:nth-child(2) {
+	transition-delay: 0.9s;
+}
+.accordion-slider .slide.active .badge:nth-child(3) {
+	transition-delay: 0.95s;
+}
+
+.accordion-slider .badge-icon {
+	width: 8px;
+	height: 8px;
+	background: #9fff6b;
+	border-radius: 50%;
+}
+
+.accordion-slider .add-button {
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	width: 32px;
+	height: 32px;
+	background: transparent;
+	border: 2px solid #9fff6b;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.4s ease;
+	z-index: 3;
+}
+
+.accordion-slider .add-button::before,
+.accordion-slider .add-button::after {
+	content: "";
+	position: absolute;
+	background: #9fff6b;
+	transition: all 0.4s ease;
+}
+
+.accordion-slider .add-button::before {
+	width: 12px;
+	height: 2px;
+}
+
+.accordion-slider .add-button::after {
+	width: 2px;
+	height: 12px;
+	transform: rotate(0deg);
+}
+
+.accordion-slider .slide.active .add-button::before {
+	transform: rotate(0deg);
+}
+
+.accordion-slider .slide.active .add-button::after {
+	opacity: 0;
+	transform: scale(0);
+}
+
+@media (max-width: 768px) {
+	.accordion-slider {
+		flex-direction: column;
+	}
+
+	.accordion-slider .slide {
+		flex: 1;
+		min-height: 80px;
+	}
+
+	.accordion-slider .slide.active {
+		flex: 2;
+	}
+
+	.accordion-slider .slide-number {
+		font-size: 32px;
+	}
+
+	.accordion-slider .slide-title {
+		bottom: 60px;
+	}
+}
+
+/* === 地圖 hover 數字切換動畫 === */
+#achievement .number[data-stat] {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+#achievement .number[data-stat].stat-fade {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+#who-are-we .button-list{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-direction: column;
+}
+
+#who-are-we .button-list>.genric-btn{
+  width: 160px;
+}
+
+/* ===================== 橫向時間軸 ===================== */
+.timeline-wrap {
+  padding: 60px 0 40px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.timeline-track {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-width: max-content;
+  padding: 0 40px 0 20px;
+}
+
+/* 連接線 */
+.timeline-line {
+  position: absolute;
+  top: 20px; /* 對齊圓點中心 */
+  left: 20px;
+  right: 40px;
+  height: 4px;
+  background: linear-gradient(to right, #F87791, #ffb3c1);
+  border-radius: 2px;
+  z-index: 0;
+}
+
+/* 每個時間點容器 */
+.timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 180px;
+  flex-shrink: 0;
+  cursor: default;
+  z-index: 1;
+}
+
+/* 圓點 */
+.timeline-circle {
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 3px solid #F87791;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  transition: transform 0.25s ease, background 0.25s ease;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* 資訊卡 */
+.timeline-card {
+  background: #fff;
+  border: 1.5px solid #f8c6cf;
+  border-radius: 12px;
+  padding: 14px 16px;
+  width: 160px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(248, 119, 145, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.timeline-year {
+  font-size: 13px;
+  font-weight: 700;
+  color: #F87791;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.timeline-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 6px;
+  transition: color 0.25s ease;
+}
+
+.timeline-desc {
+  font-size: 12px;
+  color: #777;
+  line-height: 1.6;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.35s ease;
+}
+
+/* 滑鼠移入效果 */
+.timeline-item:hover .timeline-circle {
+  background: #F87791;
+  transform: scale(1.3);
+}
+
+.timeline-item:hover .timeline-card {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(248, 119, 145, 0.3);
+  border-color: #F87791;
+}
+
+.timeline-item:hover .timeline-title {
+  color: #F87791;
+}
+
+.timeline-item:hover .timeline-desc {
+  max-height: 100px;
+  opacity: 1;
+}
+
+/* 「現今」特殊樣式 */
+.timeline-item--now .timeline-circle {
+  background: #F87791;
+  border-color: #e05573;
+  width: 26px;
+  height: 26px;
+}
+
+.timeline-item--now .timeline-card {
+  background: linear-gradient(135deg, #fff5f7, #fff);
+  border-color: #F87791;
+}
+
+.timeline-item--now .timeline-year {
+  font-size: 15px;
+}
+
+/* 小螢幕捲動提示 */
+@media (max-width: 767px) {
+  .timeline-wrap::after {
+    content: '← 左右滑動 →';
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #bbb;
+    margin-top: 8px;
+  }
+
+  .timeline-item {
+    width: 150px;
+  }
+
+  .timeline-card {
+    width: 130px;
+    padding: 10px 12px;
+  }
+}
+/* ===================================================== */

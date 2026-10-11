@@ -121,7 +121,7 @@
 				<div class="row fullscreen align-items-center justify-content-center">
 					<div class="col-lg-12">
 						<!-- Start Carousel -->
-						<div class="carousel slide">
+						<div id="bannerCarousel" class="carousel slide">
 							<!-- 指示點 -->
 							<div class="carousel-indicators">
 								<button
@@ -167,7 +167,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-12 col-md-10">
-						<div class="row">
+						<div v-if="whoAreWeType === 'main'" class="row">
 							<div class="col-12 col-md-4">
 								<div class="exprience-thumb" style="background: url(img/back.jpg);"></div>
 							</div>
@@ -184,39 +184,81 @@
 								<p>時間軸、願景、核心價值、使命（個別按鈕取代我們是誰區塊的文字）</p>
 							</div>
 						</div>
-						<div class="row">
+						<div v-if="whoAreWeType === 'timeline'" class="row">
+							<div class="timeline-wrap col-12">
+								<div class="timeline-track">
+									<div class="timeline-line"></div>
+
+									<div class="timeline-item">
+										<div class="timeline-circle"></div>
+										<div class="timeline-card">
+											<div class="timeline-year">2018</div>
+											<div class="timeline-title">街頭行動</div>
+											<div class="timeline-desc">理事長：你來我社區！走上街頭，推廣假新聞識讀意識。</div>
+										</div>
+									</div>
+
+									<div class="timeline-item">
+										<div class="timeline-circle"></div>
+										<div class="timeline-card">
+											<div class="timeline-year">2019</div>
+											<div class="timeline-title">大眾宣講＋種子志工培訓</div>
+											<div class="timeline-desc">深入各地社區，培訓在地種子志工，擴大識讀影響力。</div>
+										</div>
+									</div>
+
+									<div class="timeline-item">
+										<div class="timeline-circle"></div>
+										<div class="timeline-card">
+											<div class="timeline-year">2020</div>
+											<div class="timeline-title">成立協會＋長期課程</div>
+											<div class="timeline-desc">正式成立協會，推出系統化長期課程，足跡遍及全台。</div>
+										</div>
+									</div>
+
+									<div class="timeline-item">
+										<div class="timeline-circle"></div>
+										<div class="timeline-card">
+											<div class="timeline-year">2023</div>
+											<div class="timeline-title">教師研習營</div>
+											<div class="timeline-desc">與學校合作，舉辦教師研習營，將識讀教育帶入校園。</div>
+										</div>
+									</div>
+
+									<div class="timeline-item timeline-item--now">
+										<div class="timeline-circle"></div>
+										<div class="timeline-card">
+											<div class="timeline-year">現今</div>
+											<div class="timeline-title">持續深耕</div>
+											<div class="timeline-desc">服務對象涵蓋社區據點、社區大學、教會、企業、國高中、大學科系等。</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
 						</div>
+						<div v-if="whoAreWeType === 'vision'" class="row">
+							願景
+						</div>
+						<div v-if="whoAreWeType === 'coreValue'" class="row">
+							核心價值
+						</div>
+						<div v-if="whoAreWeType === 'mission'" class="row">
+							使命
+						</div>
+
 					</div>
 					<div class="button-list col-12 col-md-2">
-						<a href="#what-we-do" class="genric-btn primary circle">我們是誰？</a>
-						<a href="#what-we-do" class="genric-btn primary circle">時間軸</a>
-						<a href="#what-we-do" class="genric-btn primary circle">願景</a>
-						<a href="#what-we-do" class="genric-btn primary circle">核心價值</a>
-						<a href="#what-we-do" class="genric-btn primary circle">使命</a>
+						<a class="genric-btn primary circle" @click="whoAreWeType = 'main'">我們是誰？</a>
+						<a class="genric-btn primary circle" @click="whoAreWeType = 'timeline'">時間軸</a>
+						<a class="genric-btn primary circle" @click="whoAreWeType = 'vision'">願景</a>
+						<a class="genric-btn primary circle" @click="whoAreWeType = 'coreValue'">核心價值</a>
+						<a class="genric-btn primary circle" @click="whoAreWeType = 'mission'">使命</a>
 					</div>
 				</div>
 			</div>
 		</section>
 		<!-- End Exprience Area -->
-		<!-- Start Service Area -->
-		<!--
-		<section class="carousel-area gap-1 section-gap relative">
-			<div class="overlay overlay-bg"></div>
-			<div class="container">
-				<div class="row justify-content-end align-items-center">
-					<div class="col-lg-6 col-md-9 relative">
-						<div class="item">
-							<p class="text-white">假新聞不只能造成你我的健康損害、經濟損失以及社會恐慌，更可能造成不知情者，做出危害公眾利益的判斷。</p>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-3 text-center">
-						<img class="half-side-image" src="img/harm2.jpg" alt="">
-					</div>
-				</div>
-			</div>
-		</section>
-		-->
-		<!-- End Service Area -->
 		<!-- Start Projects Area -->
 		<section id="what-we-do">
 			<!-- 活動類型改這種形式顯示：https://essential-addons.com/image-accordion/ -->
@@ -303,7 +345,7 @@
 							<div class="col-6" style="background-image: url('/img/pass-cat.jpg'); min-height: 300px; background-size: contain; background-repeat: no-repeat; background-position: center;">
 							</div>
 							<div class="col-6" style="display: flex; align-items: center;">
-								<figure style="border-left: 4px solid lightgrey;padding-left: 8px;">
+								<figure style="border-left: 4px solid #ADADAD;padding-left: 8px;">
 									<blockquote class="blockquote">
 										<p>不只田地減少，餐廳生意也沒了... </p>
 									</blockquote>
