@@ -6,7 +6,7 @@ const { createApp, ref, reactive, onMounted, computed } = Vue;
 createApp({
   setup() {
 
-    // ── 1. Banner 輪播 ──────────────────────────────────────────────────
+    // ── Banner 輪播 ──────────────────────────────────────────────────
     const bannerSlides = ref([
       {
         title: '假新聞清潔劑',
@@ -23,7 +23,7 @@ createApp({
     ]);
     const currentBannerIndex = ref(0);
 
-    // ── 2. Accordion Slider ─────────────────────────────────────────────
+    // ── Accordion Slider ─────────────────────────────────────────────
     const accordionSlides = ref([
       { title: '街頭活動',   subtitle: '帶領志工向路人說明假新聞的危害',       img: 'https://picsum.photos/id/10/1200/800' },
       { title: '市集擺攤',   subtitle: '參加市集，讓群眾更認識整個議題',       img: 'https://picsum.photos/id/11/1028/700' },
@@ -34,7 +34,7 @@ createApp({
     ]);
     const activeSlideIndex = ref(-1);
 
-    // ── 3. 成果統計 ─────────────────────────────────────────────────────
+    // ── 成果統計 ─────────────────────────────────────────────────────
     const defaultStats = { events: 950, trainers: 25, volunteers: 210, families: '5萬', label: '' };
     const currentStats = reactive({ ...defaultStats });
 
@@ -67,18 +67,19 @@ createApp({
       '09007': { events: 3,   trainers: 1,  volunteers: 1,  families: '100',   label: '連江縣' },
     };
 
-    // ── 4. 文章卡片 ─────────────────────────────────────────────────────
+    // ── 文章卡片 ─────────────────────────────────────────────────────
     const newsCards = ref([
       { id: 1, img: 'https://picsum.photos/id/11/1028/700', title: 'Card title', text: "Some quick example text to build on the card title and make up the bulk of the card's content.", link: '#' },
       { id: 2, img: 'https://picsum.photos/id/20/1028/700', title: 'Card title', text: "Some quick example text to build on the card title and make up the bulk of the card's content.", link: '#' },
       { id: 3, img: 'https://picsum.photos/id/42/1028/700', title: 'Card title', text: "Some quick example text to build on the card title and make up the bulk of the card's content.", link: '#' },
     ]);
 
-    // ── 5. UI 狀態 ──────────────────────────────────────────────────────
+    // ── UI 狀態 ──────────────────────────────────────────────────────
     const isSticky   = ref(false);
     const isFabVisible = ref(false);
     const isFabOpen  = ref(false);
     const isNavOpen  = ref(false);
+    const whoAreWeType = ref('main'); // main: 我們是誰, timeline: 時間軸, vision: 願景, coreValue: 核心價值, mission: 使命
 
     // ── Banner 方法 ─────────────────────────────────────────────────────
     function nextBanner() {
@@ -327,7 +328,7 @@ createApp({
       currentStats,
       newsCards,
       // UI 狀態
-      isSticky, isFabVisible, isFabOpen, isNavOpen,
+      isSticky, isFabVisible, isFabOpen, isNavOpen, whoAreWeType,
       // 方法
       nextBanner, goToBanner,
       setActiveSlide,
