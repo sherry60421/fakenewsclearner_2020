@@ -28,11 +28,11 @@ createApp({
 
     // ── Accordion Slider ─────────────────────────────────────────────
     const accordionSlides = ref([
-      { title: '街頭活動',   subtitle: '帶領志工向路人說明假新聞的危害',       img: '/img/street.jpg' },
-      { title: '市集擺攤',   subtitle: '參加市集，讓群眾更認識整個議題',       img: '/img/market.jpeg' },
-      { title: '志工培訓',   subtitle: '訓練志工，讓更多人能參與我們的行動',   img: '/img/volunteer.jpg'  },
-      { title: '大眾宣講',   subtitle: '結合關懷據點、社區大學等單位進行宣講', img: '/img/lecture.jpg' },
-      { title: '講師培力',   subtitle: '從一對一訓練，至親身上台累積經驗',     img: '/img/teacher2.jpg' },
+      { title: '街頭活動',   subtitle: '帶領志工向路人說明假新聞的危害',       img: 'img/street.jpg' },
+      { title: '市集擺攤',   subtitle: '參加市集，讓群眾更認識整個議題',       img: 'img/market.jpeg' },
+      { title: '志工培訓',   subtitle: '訓練志工，讓更多人能參與我們的行動',   img: 'img/volunteer.jpg'  },
+      { title: '大眾宣講',   subtitle: '結合關懷據點、社區大學等單位進行宣講', img: 'img/lecture.jpg' },
+      { title: '講師培力',   subtitle: '從一對一訓練，至親身上台累積經驗',     img: 'img/teacher2.jpg' },
       { title: '教材研發',   subtitle: '親自設計的教材，讓群眾深入認識假新聞', img: 'https://picsum.photos/id/15/1028/750' },
     ]);
     const activeSlideIndex = ref(-1);
