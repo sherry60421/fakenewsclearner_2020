@@ -46,10 +46,16 @@
 		<link rel="stylesheet" href="css/nice-select.css">
 		<link rel="stylesheet" href="css/magnific-popup.css">
 		<link rel="stylesheet" href="packages/bootstrap-5.2.3/css/bootstrap.min.css">
+		<!-- Vuetify 3 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.8.0/dist/vuetify.min.css">
+		<!-- Material Design Icons（Vuetify 預設圖示集） -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
 		<link rel="stylesheet" href="css/main.css">
 
 		<!-- Vue 3 CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.min.js"></script>
+		<!-- Vuetify 3 CDN -->
+		<script src="https://cdn.jsdelivr.net/npm/vuetify@3.8.0/dist/vuetify.min.js"></script>
 
 		<!-- Facebook Pixel Code -->
 		<script>
@@ -184,67 +190,131 @@
 								<p>時間軸、願景、核心價值、使命（個別按鈕取代我們是誰區塊的文字）</p>
 							</div>
 						</div>
-						<div v-if="whoAreWeType === 'timeline'" class="row">
-							<div class="timeline-wrap col-12">
-								<div class="timeline-track">
-									<div class="timeline-line"></div>
+						<div v-if="whoAreWeType === 'timeline'" class="row justify-center">
+							<v-timeline direction="horizontal" align="start" class="col-12 overflow-x-auto">
+								<v-timeline-item
+									dot-color="primary"
+									size="small"
+								>
+									<template v-slot:opposite>
+										<span class="text-h6 font-weight-bold text-primary">2018</span>
+									</template>
+									<v-card elevation="2" min-width="140">
+										<v-card-title class="text-subtitle-1 font-weight-bold">街頭行動</v-card-title>
+										<v-card-text>理事長：你來我社區！走上街頭，推廣假新聞識讀意識。</v-card-text>
+									</v-card>
+								</v-timeline-item>
 
-									<div class="timeline-item">
-										<div class="timeline-circle"></div>
-										<div class="timeline-card">
-											<div class="timeline-year">2018</div>
-											<div class="timeline-title">街頭行動</div>
-											<div class="timeline-desc">理事長：你來我社區！走上街頭，推廣假新聞識讀意識。</div>
+								<v-timeline-item
+									dot-color="primary"
+									size="small"
+								>
+									<template v-slot:opposite>
+										<span class="text-h6 font-weight-bold text-primary">2019</span>
+									</template>
+									<v-card elevation="2" min-width="140">
+										<v-card-title class="text-subtitle-1 font-weight-bold">大眾宣講＋種子志工培訓</v-card-title>
+										<v-card-text>深入各地社區，培訓在地種子志工，擴大識讀影響力。</v-card-text>
+									</v-card>
+								</v-timeline-item>
+
+								<v-timeline-item
+									dot-color="primary"
+									size="small"
+								>
+									<template v-slot:opposite>
+										<span class="text-h6 font-weight-bold text-primary">2020</span>
+									</template>
+									<v-card elevation="2" min-width="140">
+										<v-card-title class="text-subtitle-1 font-weight-bold">成立協會＋長期課程</v-card-title>
+										<v-card-text>正式成立協會，推出系統化長期課程，足跡遍及全台。</v-card-text>
+									</v-card>
+								</v-timeline-item>
+
+								<v-timeline-item
+									dot-color="primary"
+									size="small"
+								>
+									<template v-slot:opposite>
+										<span class="text-h6 font-weight-bold text-primary">2023</span>
+									</template>
+									<v-card elevation="2" min-width="140">
+										<v-card-title class="text-subtitle-1 font-weight-bold">教師研習營</v-card-title>
+										<v-card-text>與學校合作，舉辦教師研習營，將識讀教育帶入校園。</v-card-text>
+									</v-card>
+								</v-timeline-item>
+
+								<v-timeline-item
+									dot-color="orange-darken-2"
+									size="small"
+									icon="mdi-star"
+								>
+									<template v-slot:opposite>
+										<span class="text-h6 font-weight-bold text-orange-darken-2">現今</span>
+									</template>
+									<v-card elevation="2" color="orange-lighten-5" min-width="140">
+										<v-card-title class="text-subtitle-1 font-weight-bold">持續深耕</v-card-title>
+										<v-card-text>服務對象涵蓋社區據點、社區大學、教會、企業、國高中、大學科系等。</v-card-text>
+									</v-card>
+								</v-timeline-item>
+							</v-timeline>
+						</div>
+						<div v-if="whoAreWeType === 'vision'" class="row justify-center">
+							<div class="col-12 col-md-11 vision">
+								<span class="vision-label">VISION・願景</span>
+								<blockquote class="vision-quote">
+									<p>秉持對話與同理，學會辨識與查證，<br class="d-none d-md-inline">保護自己與親友。</p>
+									<p class="vision-quote-sub">願意修正自己、也願意接受對方。</p>
+								</blockquote>
+								<div class="row vision-pillars">
+									<div class="col-12 col-md-4">
+										<div class="vision-pillar">
+											<span class="vision-pillar-icon"><i class="fas fa-comments" aria-hidden="true"></i></span>
+											<h4>對話與同理</h4>
+											<p>先傾聽，再交流</p>
 										</div>
 									</div>
-
-									<div class="timeline-item">
-										<div class="timeline-circle"></div>
-										<div class="timeline-card">
-											<div class="timeline-year">2019</div>
-											<div class="timeline-title">大眾宣講＋種子志工培訓</div>
-											<div class="timeline-desc">深入各地社區，培訓在地種子志工，擴大識讀影響力。</div>
+									<div class="col-12 col-md-4">
+										<div class="vision-pillar">
+											<span class="vision-pillar-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+											<h4>辨識與查證</h4>
+											<p>保護自己與親友</p>
 										</div>
 									</div>
-
-									<div class="timeline-item">
-										<div class="timeline-circle"></div>
-										<div class="timeline-card">
-											<div class="timeline-year">2020</div>
-											<div class="timeline-title">成立協會＋長期課程</div>
-											<div class="timeline-desc">正式成立協會，推出系統化長期課程，足跡遍及全台。</div>
+									<div class="col-12 col-md-4">
+										<div class="vision-pillar">
+											<span class="vision-pillar-icon"><i class="fas fa-hands-helping" aria-hidden="true"></i></span>
+											<h4>修正與接納</h4>
+											<p>修正自己，接受對方</p>
 										</div>
 									</div>
-
-									<div class="timeline-item">
-										<div class="timeline-circle"></div>
-										<div class="timeline-card">
-											<div class="timeline-year">2023</div>
-											<div class="timeline-title">教師研習營</div>
-											<div class="timeline-desc">與學校合作，舉辦教師研習營，將識讀教育帶入校園。</div>
-										</div>
-									</div>
-
-									<div class="timeline-item timeline-item--now">
-										<div class="timeline-circle"></div>
-										<div class="timeline-card">
-											<div class="timeline-year">現今</div>
-											<div class="timeline-title">持續深耕</div>
-											<div class="timeline-desc">服務對象涵蓋社區據點、社區大學、教會、企業、國高中、大學科系等。</div>
-										</div>
-									</div>
-
 								</div>
 							</div>
-						</div>
-						<div v-if="whoAreWeType === 'vision'" class="row">
-							願景
 						</div>
 						<div v-if="whoAreWeType === 'coreValue'" class="row">
 							核心價值
 						</div>
-						<div v-if="whoAreWeType === 'mission'" class="row">
-							使命
+						<div v-if="whoAreWeType === 'mission'" class="row justify-center">
+							<v-card
+								class="col-12 col-md-10 pa-6 text-center"
+								elevation="0"
+								color="transparent"
+							>
+								<v-icon size="48" color="primary" class="mb-4">mdi-hand-heart-outline</v-icon>
+								<v-card-text class="pa-0">
+									<p class="text-h5 font-weight-bold text-primary mb-4" style="line-height: 1.8;">
+										為了我們及下一代，用心思辨、用愛溝通，<br/>
+										透過面對面的共同思考與探索，<br/>
+										連結人與人的真實與良善
+									</p>
+									<v-divider class="my-4 mx-auto" style="max-width: 80px; border-width: 2px; border-color: rgb(var(--v-theme-primary));"></v-divider>
+									<p class="text-body-1 text-medium-emphasis font-italic" style="line-height: 1.9;">
+										Connecting the world's truth and goodness<br/>
+										for ourselves and the generations to come,<br/>
+										with mindful thinking, with loving communication.
+									</p>
+								</v-card-text>
+							</v-card>
 						</div>
 
 					</div>
@@ -285,8 +355,73 @@
 		<section id="recent-activity">
 			<!-- 活動類型改這種形式顯示：https://essential-addons.com/image-accordion/ -->
 			<div class="container">
-				<h2 class="text-align-center">近期活動（3個）</h2>
+				<h2 class="text-align-center">近期活動</h2>
+				<div class="row news-card-row">
+					<div
+						v-for="card in newsCards.slice(0, 3)"
+						:key="card.id"
+						class="col-12 col-md-4 news-card-col"
+					>
+						<div class="card news-card">
+							<div class="news-card-img-wrap">
+								<img :src="card.img" class="card-img-top" alt="文章封面圖">
+							</div>
+							<div class="card-body">
+								<h5 class="card-title">{{ card.title }}</h5>
+								<p class="card-text">{{ card.text }}</p>
+								<button type="button" class="btn news-btn" @click="openActivity(card)">閱讀更多</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 其餘活動：點 Read more... 向下展開 -->
+				<div class="news-card-more" :class="{ 'is-open': isMoreCardsOpen }" id="recent-activity-more">
+					<div class="news-card-more-inner">
+						<div class="row news-card-row">
+							<div
+								v-for="card in newsCards.slice(3)"
+								:key="card.id"
+								class="col-12 col-md-4 news-card-col"
+							>
+								<div class="card news-card">
+									<div class="news-card-img-wrap">
+										<img :src="card.img" class="card-img-top" alt="文章封面圖">
+									</div>
+									<div class="card-body">
+										<h5 class="card-title">{{ card.title }}</h5>
+										<p class="card-text">{{ card.text }}</p>
+										<button type="button" class="btn news-btn" @click="openActivity(card)">閱讀更多</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div v-if="newsCards.length > 3" class="text-align-center">
+					<button type="button" class="news-more-toggle"
+						:aria-expanded="String(isMoreCardsOpen)"
+						aria-controls="recent-activity-more"
+						@click="isMoreCardsOpen = !isMoreCardsOpen">
+						{{ isMoreCardsOpen ? 'Show less' : 'Read more...' }}
+					</button>
+				</div>
 			</div>
+			<v-dialog v-model="isActivityOpen" max-width="720" scrollable>
+				<v-card v-if="activeActivity" class="news-dialog">
+					<img :src="activeActivity.img" class="activity-dialog-img" alt="活動照片">
+					<v-card-title class="news-dialog-head">
+						<div class="news-dialog-meta">{{ activeActivity.date }}・{{ activeActivity.place }}</div>
+						<h3 class="news-dialog-title">{{ activeActivity.title }}</h3>
+					</v-card-title>
+					<v-card-text class="news-dialog-body">
+						<p v-for="(para, i) in activeActivity.content" :key="i">{{ para }}</p>
+					</v-card-text>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<button type="button" class="btn news-btn" @click="isActivityOpen = false">關閉</button>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
 		</section>
 		<!-- Start Video Area -->
 		<!--
@@ -371,26 +506,37 @@
 		<!-- Start Aritcle Area -->
 		<section id="news">
 			<div class="container">
-				<h2>文章＆報導</h2>
-				<div class="row news-card-row">
-					<div
-						v-for="card in newsCards"
-						:key="card.id"
-						class="col-12 col-md-4 news-card-col"
-					>
-						<div class="card news-card">
-							<div class="news-card-img-wrap">
-								<img :src="card.img" class="card-img-top" alt="文章封面圖">
-							</div>
-							<div class="card-body">
-								<h5 class="card-title">{{ card.title }}</h5>
-								<p class="card-text">{{ card.text }}</p>
-								<a :href="card.link" class="btn news-btn">閱讀更多</a>
-							</div>
-						</div>
-					</div>
-				</div>
+				<h2>文章報導</h2>
+				<ul class="news-list">
+					<li v-for="item in articles" :key="item.id">
+						<button type="button" class="news-list-item" @click="openArticle(item)">
+							<span class="news-list-date">
+								<span class="news-list-weekday">{{ formatWeekday(item.date) }}</span>
+								<span class="news-list-md">{{ formatMonthDay(item.date) }}</span>
+							</span>
+							<span class="news-list-title">{{ item.title }}</span>
+							<span class="news-list-source">{{ item.source }}</span>
+						</button>
+					</li>
+				</ul>
 			</div>
+			<v-dialog v-model="isArticleOpen" max-width="680" scrollable>
+				<v-card v-if="activeArticle" class="news-dialog">
+					<v-card-title class="news-dialog-head">
+						<div class="news-dialog-meta">
+							{{ formatWeekday(activeArticle.date) }} {{ formatMonthDay(activeArticle.date) }}・{{ activeArticle.source }}
+						</div>
+						<h3 class="news-dialog-title">{{ activeArticle.title }}</h3>
+					</v-card-title>
+					<v-card-text class="news-dialog-body">
+						<p v-for="(para, i) in activeArticle.content" :key="i">{{ para }}</p>
+					</v-card-text>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<button type="button" class="btn news-btn" @click="isArticleOpen = false">關閉</button>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
 		</section>
 		<!-- Start Service Area -->
 		<!--<section class="section-gap-3 section-gap relative">
