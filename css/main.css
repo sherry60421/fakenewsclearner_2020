@@ -2535,6 +2535,7 @@ nav a:hover {
   display: flex;
   flex-direction: column;
   background: #fff;
+  position: relative;
 }
 
 .news-card:hover {
@@ -2544,9 +2545,11 @@ nav a:hover {
 
 /* 圖片區塊：固定高度，zoom on hover */
 .news-card-img-wrap {
+  position: relative;
   overflow: hidden;
-  height: 200px;
+  aspect-ratio: 16 / 9;
   flex-shrink: 0;
+  background: #f3eef0;
 }
 
 .news-card-img-wrap .card-img-top {
@@ -2574,22 +2577,193 @@ nav a:hover {
   color: #222;
   margin-bottom: 10px;
   line-height: 1.45;
+  /* 最多 2 行 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .news-card .card-text {
   font-size: 14px;
   color: #666;
   line-height: 1.7;
-  flex: 1;          /* 推按鈕到底部 */
   margin-bottom: 20px;
+  /* 最多 3 行 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 推按鈕到底部 */
+.news-card .news-card-hit {
+  margin-top: auto;
+}
+
+/* 整張卡片都可點：按鈕的偽元素蓋滿卡片 */
+.news-card-hit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.news-card:has(.news-card-hit:focus-visible) {
+  outline: 2px solid #F87791;
+  outline-offset: 3px;
+}
+
+/* 地點：單行，超出顯示… */
+.news-card-place {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.news-card-place i,
+.activity-dialog-meta i {
+  margin-right: 6px;
+}
+
+/* 圖片左上角日期徽章 */
+.news-card-date-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  min-width: 54px;
+  padding: 6px 8px 5px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  line-height: 1;
+}
+
+.news-card-date-month {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #F87791;
+  margin-bottom: 4px;
+}
+
+.news-card-date-day {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  color: #222;
+}
+
+/* 圖片右上角狀態標籤 */
+.news-card-status {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: #F87791;
+}
+
+.news-card.is-ongoing .news-card-status {
+  background: #685057;
+}
+
+.news-card.is-ended .news-card-status {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.news-card.is-ended .card-img-top {
+  filter: grayscale(0.6);
 }
 
 /* 近期活動 dialog 圖片 */
 .activity-dialog-img {
   width: 100%;
-  height: 260px;
+  aspect-ratio: 16 / 9;
+  max-height: 280px;
   object-fit: cover;
   flex-shrink: 0;
+}
+
+.activity-dialog-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+/* 近期活動 dialog：HTML 內文排版 */
+.activity-html {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #444;
+}
+
+.activity-html > :first-child {
+  margin-top: 0;
+}
+
+.activity-html h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  margin: 24px 0 8px;
+}
+
+.activity-html ul,
+.activity-html ol {
+  padding-left: 1.5em;
+  margin-bottom: 16px;
+}
+
+.activity-html ul {
+  list-style: disc;
+}
+
+.activity-html ol {
+  list-style: decimal;
+}
+
+/* 覆蓋全站 li 的字級與 reset */
+.activity-html li {
+  display: list-item;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin-bottom: 4px;
+}
+
+.activity-html img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+.activity-html a {
+  color: #F87791;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.activity-html a:hover {
+  color: #685057;
+}
+
+.activity-html blockquote {
+  margin: 16px 0;
+  padding: 10px 16px;
+  border-left: 4px solid #F87791;
+  background: #fdf1f4;
+  border-radius: 0 8px 8px 0;
+  color: #555;
 }
 
 /* 近期活動：其餘卡片向下展開 */

@@ -369,14 +369,20 @@
 						:key="card.id"
 						class="col-12 col-md-4 news-card-col"
 					>
-						<div class="card news-card">
+						<div class="card news-card" :class="'is-' + card.status.key">
 							<div class="news-card-img-wrap">
-								<img :src="card.img" class="card-img-top" alt="文章封面圖">
+								<img :src="card.img" class="card-img-top" alt="活動封面圖" loading="lazy">
+								<div class="news-card-date-badge" aria-hidden="true">
+									<span class="news-card-date-month">{{ card.badgeMonth }}</span>
+									<span class="news-card-date-day">{{ card.badgeDay }}</span>
+								</div>
+								<span class="news-card-status">{{ card.status.label }}</span>
 							</div>
 							<div class="card-body">
+								<div class="news-card-place"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ card.place }}</div>
 								<h5 class="card-title">{{ card.title }}</h5>
-								<p class="card-text">{{ card.text }}</p>
-								<button type="button" class="btn news-btn" @click="openActivity(card)">閱讀更多</button>
+								<p class="card-text">{{ card.summary }}</p>
+								<button type="button" class="btn news-btn news-card-hit" @click="openActivity(card)">閱讀更多</button>
 							</div>
 						</div>
 					</div>
@@ -390,14 +396,20 @@
 								:key="card.id"
 								class="col-12 col-md-4 news-card-col"
 							>
-								<div class="card news-card">
+								<div class="card news-card" :class="'is-' + card.status.key">
 									<div class="news-card-img-wrap">
-										<img :src="card.img" class="card-img-top" alt="文章封面圖">
+										<img :src="card.img" class="card-img-top" alt="活動封面圖" loading="lazy">
+										<div class="news-card-date-badge" aria-hidden="true">
+											<span class="news-card-date-month">{{ card.badgeMonth }}</span>
+											<span class="news-card-date-day">{{ card.badgeDay }}</span>
+										</div>
+										<span class="news-card-status">{{ card.status.label }}</span>
 									</div>
 									<div class="card-body">
+										<div class="news-card-place"><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ card.place }}</div>
 										<h5 class="card-title">{{ card.title }}</h5>
-										<p class="card-text">{{ card.text }}</p>
-										<button type="button" class="btn news-btn" @click="openActivity(card)">閱讀更多</button>
+										<p class="card-text">{{ card.summary }}</p>
+										<button type="button" class="btn news-btn news-card-hit" @click="openActivity(card)">閱讀更多</button>
 									</div>
 								</div>
 							</div>
@@ -415,14 +427,16 @@
 			</div>
 			<v-dialog v-model="isActivityOpen" max-width="720" scrollable>
 				<v-card v-if="activeActivity" class="news-dialog">
-					<img :src="activeActivity.img" class="activity-dialog-img" alt="活動照片">
+					<img :src="activeActivity.img" class="activity-dialog-img" :alt="activeActivity.title">
 					<v-card-title class="news-dialog-head">
-						<div class="news-dialog-meta">{{ activeActivity.date }}・{{ activeActivity.place }}</div>
+						<div class="news-dialog-meta activity-dialog-meta">
+							<span><i class="far fa-calendar-alt" aria-hidden="true"></i>{{ activeActivity.dateText }}<template v-if="activeActivity.dateNote">・{{ activeActivity.dateNote }}</template></span>
+							<span><i class="fas fa-map-marker-alt" aria-hidden="true"></i>{{ activeActivity.place }}</span>
+						</div>
 						<h3 class="news-dialog-title">{{ activeActivity.title }}</h3>
 					</v-card-title>
-					<v-card-text class="news-dialog-body">
-						<p v-for="(para, i) in activeActivity.content" :key="i">{{ para }}</p>
-					</v-card-text>
+					<!-- 內文為協會自行撰寫的 HTML（activities.js），勿放入外部來源內容 -->
+					<v-card-text class="news-dialog-body activity-html" v-html="activeActivity.html"></v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
 						<button type="button" class="btn news-btn" @click="isActivityOpen = false">關閉</button>

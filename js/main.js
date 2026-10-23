@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import * as topojson from 'topojson-client';
 import { countyStories } from './county-stories.js';
+import { activities } from './activities.js';
 
 const { createApp, ref, reactive, onMounted, computed, watch } = Vue;
 const { createVuetify } = Vuetify;
@@ -73,64 +74,49 @@ createApp({
       '09007': { events: 3,   families: '100',   label: '連江縣' },
     };
 
-    // ── 文章卡片 ─────────────────────────────────────────────────────
-    const newsCards = ref([
-      {
-        id: 1, img: 'https://picsum.photos/id/11/1028/700', date: '2026/11/08（日）', place: '台北市大安區 龍安社區關懷據點',
-        title: '社區講座：長輩也能學會的查證小技巧',
-        text: '走進社區關懷據點，用生活中最常見的 LINE 謠言當教材，陪長輩一起練習「先查再傳」。',
-        content: [
-          '長輩的 LINE 群組裡，每天都有大量健康偏方、政策謠言與詐騙訊息流傳。本次講座以長輩實際收過的訊息為教材，用問答與小遊戲的方式，帶大家認識謠言常見的套路。',
-          '現場會示範如何用關鍵字搜尋、比對新聞來源，以及使用查證機器人確認訊息真偽。講座結束後，志工也會留下來協助長輩在手機上設定查證工具，讓學到的方法回家就能用。',
-          '活動免費參加，歡迎社區長輩與家屬一同出席。',
-        ],
-      },
-      {
-        id: 2, img: 'https://picsum.photos/id/20/1028/700', date: '2026/11/15（日）', place: '台中市第二市場',
-        title: '市集擺攤：菜價謠言大解密',
-        text: '在傳統市場設置互動攤位，以菜價、食安謠言為題，和攤商與顧客聊聊資訊從哪裡來。',
-        content: [
-          '「颱風過後菜價要翻三倍」、「某某食材吃了會致癌」——這些消息在市場裡口耳相傳，卻很少有人追問來源。',
-          '攤位準備了「真假消息翻翻卡」互動遊戲，民眾可以挑戰判斷訊息真偽，完成挑戰即可獲得協會設計的識讀小卡。我們希望透過輕鬆的對話，讓更多人在日常生活中多一分懷疑、多一步查證。',
-        ],
-      },
-      {
-        id: 3, img: 'https://picsum.photos/id/42/1028/700', date: '2026/11/21 起，每週六下午', place: '台北市中正區 協會辦公室',
-        title: '種子志工培訓：第六屆開始招生',
-        text: '想把資訊識讀帶回自己的社區嗎？第六屆種子志工培訓課程正式開放報名。',
-        content: [
-          '課程共四堂，內容涵蓋假訊息類型與傳播機制、與不同立場的人溝通的技巧、教案演練與試講。',
-          '結訓後可跟著資深講師到社區實地宣講，累積經驗後也能獨立帶領活動。不需任何相關背景，只要願意傾聽與分享，都歡迎加入我們。',
-        ],
-      },
-      {
-        id: 4, img: 'https://picsum.photos/id/48/1028/700', date: '2026/11/27（五）', place: '新北市板橋區 某國中',
-        title: '校園宣講：國中生的媒體識讀第一課',
-        text: '和老師合作設計課堂活動，帶學生拆解短影音與網紅貼文背後的資訊來源。',
-        content: [
-          '國中生每天接觸大量短影音與社群貼文，卻不一定知道內容是誰做的、為什麼做。本次與輔導老師合作，設計一堂兩節課的識讀課程。',
-          '課堂中學生將分組拆解熱門影片，找出其中的情緒操作、斷章取義與業配痕跡，並練習用自己的話說明判斷依據。',
-        ],
-      },
-      {
-        id: 5, img: 'https://picsum.photos/id/60/1028/700', date: '2026/12/05（六）', place: '高雄市立圖書館總館',
-        title: '圖書館講座：AI 生成圖片怎麼辨識',
-        text: '從近期流傳的假照片出發，介紹辨識 AI 生成內容的幾個簡單觀察重點。',
-        content: [
-          'AI 生成的圖片越來越逼真，災難現場、名人合照都可能是假的。講座將從近期在社群上流傳的實際案例出發，說明這些圖片如何被製造與散播。',
-          '講師會介紹幾個一般人也能上手的觀察重點，例如手指與文字細節、光影是否合理，以及反向搜尋圖片來源的方法。',
-        ],
-      },
-      {
-        id: 6, img: 'https://picsum.photos/id/180/1028/700', date: '2026/12/12（六）', place: '台南市 社區大學',
-        title: '講師培力工作坊：上台前的最後一哩路',
-        text: '由資深講師帶領新進講師試講與回饋，練習如何回應現場聽眾的提問。',
-        content: [
-          '從志工到講師，最大的挑戰往往是面對現場的各種提問與質疑。工作坊將由資深講師分享實戰經驗，並安排新進講師輪流試講。',
-          '每位試講者都會獲得一對一回饋，並練習在立場不同的聽眾面前，維持傾聽與尊重的對話態度。',
-        ],
-      },
-    ]);
+    // ── 近期活動（資料在 activities.js）────────────────────────────────
+    const ACT_WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
+    function parseDate(str) {
+      const [y, m, d] = str.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+    // 2026/11/08（日）；同年區間省略後段年份；跨年則兩邊都寫
+    function formatActivityDate(act) {
+      const start = parseDate(act.startDate);
+      const end = act.endDate ? parseDate(act.endDate) : null;
+      const fmt = (dt, withYear) =>
+        (withYear ? dt.getFullYear() + '/' : '') +
+        String(dt.getMonth() + 1).padStart(2, '0') + '/' +
+        String(dt.getDate()).padStart(2, '0') +
+        '（' + ACT_WEEKDAYS[dt.getDay()] + '）';
+      if (!end || end.getTime() === start.getTime()) return fmt(start, true);
+      return fmt(start, true) + ' ～ ' + fmt(end, end.getFullYear() !== start.getFullYear());
+    }
+    function activityStatus(act) {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const start = parseDate(act.startDate);
+      const end = parseDate(act.endDate || act.startDate);
+      if (today < start) return { key: 'upcoming', label: '即將舉辦' };
+      if (today > end) return { key: 'ended', label: '已結束' };
+      return { key: 'ongoing', label: '進行中' };
+    }
+    const newsCards = computed(() =>
+      [...activities]
+        .sort((a, b) => b.startDate.localeCompare(a.startDate))
+        .map(act => {
+          const start = parseDate(act.startDate);
+          return {
+            ...act,
+            dateText: formatActivityDate(act),
+            badgeMonth: (start.getMonth() + 1) + '月',
+            badgeDay: start.getDate(),
+            status: activityStatus(act),
+            // 內文連結一律開新分頁
+            html: act.html.replace(/<a\s(?![^>]*\btarget=)/g, '<a target="_blank" rel="noopener" '),
+          };
+        })
+    );
     const isMoreCardsOpen = ref(false);
     const isActivityOpen = ref(false);
     const activeActivity = ref(null);
