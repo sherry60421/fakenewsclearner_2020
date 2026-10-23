@@ -387,7 +387,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- 其餘活動：點 Read more... 向下展開 -->
+				<!-- 其餘活動：點「看更多活動」向下展開 -->
 				<div class="news-card-more" :class="{ 'is-open': isMoreCardsOpen }" id="recent-activity-more">
 					<div class="news-card-more-inner">
 						<div class="row news-card-row">
@@ -421,7 +421,7 @@
 						:aria-expanded="String(isMoreCardsOpen)"
 						aria-controls="recent-activity-more"
 						@click="isMoreCardsOpen = !isMoreCardsOpen">
-						{{ isMoreCardsOpen ? 'Show less' : 'Read more...' }}
+						{{ isMoreCardsOpen ? '收合活動' : '看更多活動' }}
 					</button>
 				</div>
 			</div>
