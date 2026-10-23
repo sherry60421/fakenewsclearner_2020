@@ -337,18 +337,25 @@
 			</div>
 			<div class="accordion-wrap">
 				<div class="accordion-slider">
-					<div
+					<button
 						v-for="(slide, index) in accordionSlides"
 						:key="index"
+						type="button"
 						:class="['slide', { active: activeSlideIndex === index }]"
 						:style="{ backgroundImage: 'url(\'' + slide.img + '\')' }"
-						@mouseenter="setActiveSlide(index)"
+						:aria-expanded="activeSlideIndex === index"
+						@mouseenter="openSlide(index)"
+						@focus="openSlide(index)"
+						@click="openSlide(index)"
 					>
-						<div class="slide-content">
-							<div class="slide-title">{{ slide.title }}</div>
-							<p class="slide-subtitle">{{ slide.subtitle }}</p>
-						</div>
-					</div>
+						<span class="slide-content">
+							<span class="slide-head">
+								<span class="slide-title">{{ slide.title }}</span>
+								<i class="fas fa-chevron-down slide-chevron" aria-hidden="true"></i>
+							</span>
+							<span class="slide-subtitle">{{ slide.subtitle }}</span>
+						</span>
+					</button>
 				</div>
 			</div>
 		</section>

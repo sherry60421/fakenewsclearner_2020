@@ -3418,337 +3418,234 @@ nav a:hover::after {
   }
 }
 
-/* accordion style */
-
-/* accordion-wrap 是放在 #what-we-do 裡的實際容器，
-   使用 position:relative 讓前後按鈕的絕對定位有依據 */
+/* === 我們在做什麼：圖片風琴 === */
 .accordion-wrap {
-  position: relative;
-  width: 100%;
-  height: 70vh;
-  min-height: 420px;
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  .accordion-wrap {
-    height: auto;
-  }
-}
-
-/* slide 裡的標題覆蓋全域 h2 黑色 */
-.accordion-slider .slide h2 {
-  color: #fff;
-}
-
-.slider-container {
-	width: 100%;
-	max-width: 1200px;
-	height: 100vh;
-	position: relative;
-	overflow: hidden;
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-.now-showing {
-	position: absolute;
-	top: 20px;
-	left: 20px;
-	color: #9fff6b;
-	font-size: 14px;
-	font-weight: 600;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	z-index: 10;
-}
-
-.now-showing::before {
-	content: "";
-	width: 6px;
-	height: 6px;
-	background: #9fff6b;
-	border-radius: 50%;
+  max-width: 1200px;
+  height: clamp(440px, 68vh, 600px);
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 .accordion-slider {
-	display: flex;
-	height: 100%;
-	position: relative;
+  display: flex;
+  gap: 10px;
+  height: 100%;
 }
 
 .accordion-slider .slide {
-	flex: 1;
-	position: relative;
-	cursor: pointer;
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
-	transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-	overflow: hidden;
-	filter: grayscale(1);
-}
+  /* button reset */
+  appearance: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  color: #fff;
 
+  /* 收合時固定窄寬，展開的那張吃掉剩下所有寬度 */
+  flex: 0 0 64px;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  cursor: pointer;
+  background-color: #4a4045; /* 圖片載入失敗時的底色 */
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(0.85) brightness(0.92);
+  transition:
+    flex 0.7s var(--ease-out-expo),
+    filter 0.5s ease,
+    box-shadow 0.5s ease;
+}
 .accordion-slider .slide:hover {
-	filter: grayscale(0);
+  filter: grayscale(0.3) brightness(1);
 }
-
 .accordion-slider .slide.active {
-	flex: 2.5;
-	filter: grayscale(0);
+  flex: 1 1 0%;
+  filter: none;
+  box-shadow: 0 24px 48px -24px rgba(40, 20, 30, 0.55);
+}
+.accordion-slider .slide:focus-visible {
+  outline: 3px solid #E8577C;
+  outline-offset: 3px;
 }
 
+/* 底部漸層，讓白字在任何照片上都看得清楚 */
 .accordion-slider .slide::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 80%);
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 10, 14, 0.1) 30%, rgba(20, 10, 14, 0.78) 100%);
+  transition: background 0.5s ease;
+}
+.accordion-slider .slide.active::before {
+  background: linear-gradient(180deg, rgba(20, 10, 14, 0) 35%, rgba(20, 10, 14, 0.85) 100%);
 }
 
 .accordion-slider .slide-content {
-	position: absolute;
-	bottom: 30px;
-	left: 30px;
-	right: 30px;
-	color: white;
-	z-index: 2;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  padding: 0 8px;
+  z-index: 1;
 }
-
 .accordion-slider .slide.active .slide-content {
-	bottom: 80px;
-	transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  padding: 0 40px;
+  bottom: 40px;
+  /* 等卡片展開得差不多再浮現文字，避免窄欄位時一字一行 */
+  animation: slide-content-in 0.6s var(--ease-out-expo) 0.35s both;
+}
+/* 展開時標題上方的粉色短線 */
+.accordion-slider .slide.active .slide-content::before {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 4px;
+  margin-bottom: 18px;
+  border-radius: 2px;
+  background: #E8577C;
+}
+@keyframes slide-content-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
 }
 
-.accordion-slider .slide-number {
-	font-size: 64px;
-	font-weight: 300;
-	color: rgba(255, 255, 255, 0.6);
-	line-height: 1;
-	position: absolute;
-	bottom: 30px;
-	left: 30px;
-	transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+/* 收合：直書標題置中 */
+.accordion-slider .slide-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
-
-.accordion-slider .slide.active .slide-number {
-	bottom: auto;
-	top: -50px;
-	font-size: 48px;
-	left: 0;
+.accordion-slider .slide.active .slide-head {
+  flex-direction: row;
+  align-items: baseline;
 }
-
 .accordion-slider .slide-title {
-	font-size: 20px;
-	font-weight: 600;
-	color: rgba(255, 255, 255, 0.8);
-	margin-bottom: 5px;
-	/*transform: rotate(-90deg);*/
-	transform-origin: left bottom;
-	position: absolute;
-	bottom: 100px;
-	left: 30px;
-	white-space: nowrap;
-	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  writing-mode: vertical-rl;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 6px;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.92);
 }
-
 .accordion-slider .slide.active .slide-title {
-	font-size: 28px;
-	font-weight: 700;
-	color: #fff;
-	opacity: 1;
-	transform: translateY(0);
-	transform-origin: unset;
-	position: static;
-	transition-delay: 0.2s;
+  writing-mode: horizontal-tb;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+.accordion-slider .slide-chevron {
+  display: none;
 }
 
 .accordion-slider .slide-subtitle {
-	font-size: 16px;
-	color: rgba(255, 255, 255, 0.8);
-	margin-bottom: 20px;
-	opacity: 0;
-	transform: translateY(30px);
-	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-	transition-delay: 0s;
+  display: block;
+  max-width: 560px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: 16px;
+  line-height: 1.85;
+  color: rgba(255, 255, 255, 0.88);
 }
-
 .accordion-slider .slide.active .slide-subtitle {
-	opacity: 1;
-	transform: translateY(0);
-	transition-delay: 0.4s;
+  max-height: 240px;
+  min-width: 260px;
+  margin-top: 14px;
+  opacity: 1;
 }
 
-.accordion-slider .car-specs {
-	opacity: 0;
-	transform: translateY(30px);
-	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-	transition-delay: 0s;
+@media (min-width: 768px) and (max-width: 991px) {
+  .accordion-slider {
+    gap: 8px;
+  }
+  .accordion-slider .slide {
+    flex-basis: 52px;
+  }
+  .accordion-slider .slide-title {
+    font-size: 18px;
+    letter-spacing: 4px;
+  }
 }
 
-.accordion-slider .slide.active .car-specs {
-	opacity: 1;
-	transform: translateY(0);
-	transition-delay: 0.5s;
-}
-
-.accordion-slider .spec-row {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 6px;
-	font-size: 14px;
-	opacity: 0;
-	transform: translateX(-20px);
-	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.accordion-slider .slide.active .spec-row {
-	opacity: 1;
-	transform: translateX(0);
-}
-
-.accordion-slider .slide.active .spec-row:nth-child(1) {
-	transition-delay: 0.6s;
-}
-.accordion-slider .slide.active .spec-row:nth-child(2) {
-	transition-delay: 0.65s;
-}
-.accordion-slider .slide.active .spec-row:nth-child(3) {
-	transition-delay: 0.7s;
-}
-.accordion-slider .slide.active .spec-row:nth-child(4) {
-	transition-delay: 0.75s;
-}
-
-.accordion-slider .spec-label {
-	color: rgba(255, 255, 255, 0.7);
-}
-
-.accordion-slider .spec-value {
-	color: white;
-	font-weight: 600;
-}
-
-.accordion-slider .performance-badges {
-	display: flex;
-	gap: 12px;
-	margin-top: 15px;
-	opacity: 0;
-	transform: translateY(30px);
-	transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-	transition-delay: 0s;
-}
-
-.accordion-slider .slide.active .performance-badges {
-	opacity: 1;
-	transform: translateY(0);
-	transition-delay: 0.8s;
-}
-
-.accordion-slider .badge {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	padding: 4px 8px;
-	background: rgba(255, 255, 255, 0.1);
-	border-radius: 12px;
-	font-size: 12px;
-	font-weight: 500;
-	opacity: 0;
-	transform: scale(0.8);
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.accordion-slider .slide.active .badge {
-	opacity: 1;
-	transform: scale(1);
-}
-
-.accordion-slider .slide.active .badge:nth-child(1) {
-	transition-delay: 0.85s;
-}
-.accordion-slider .slide.active .badge:nth-child(2) {
-	transition-delay: 0.9s;
-}
-.accordion-slider .slide.active .badge:nth-child(3) {
-	transition-delay: 0.95s;
-}
-
-.accordion-slider .badge-icon {
-	width: 8px;
-	height: 8px;
-	background: #9fff6b;
-	border-radius: 50%;
-}
-
-.accordion-slider .add-button {
-	position: absolute;
-	bottom: 30px;
-	right: 30px;
-	width: 32px;
-	height: 32px;
-	background: transparent;
-	border: 2px solid #9fff6b;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	transition: all 0.4s ease;
-	z-index: 3;
-}
-
-.accordion-slider .add-button::before,
-.accordion-slider .add-button::after {
-	content: "";
-	position: absolute;
-	background: #9fff6b;
-	transition: all 0.4s ease;
-}
-
-.accordion-slider .add-button::before {
-	width: 12px;
-	height: 2px;
-}
-
-.accordion-slider .add-button::after {
-	width: 2px;
-	height: 12px;
-	transform: rotate(0deg);
-}
-
-.accordion-slider .slide.active .add-button::before {
-	transform: rotate(0deg);
-}
-
-.accordion-slider .slide.active .add-button::after {
-	opacity: 0;
-	transform: scale(0);
-}
-
-@media (max-width: 768px) {
-	.accordion-slider {
-		flex-direction: column;
-	}
-
-	.accordion-slider .slide {
-		flex: 1;
-		min-height: 80px;
-	}
-
-	.accordion-slider .slide.active {
-		flex: 2;
-	}
-
-	.accordion-slider .slide-number {
-		font-size: 32px;
-	}
-
-	.accordion-slider .slide-title {
-		bottom: 60px;
-	}
+/* 手機 / 平板直式：改成上下堆疊的卡片，收合時就看得到標題 */
+@media (max-width: 767px) {
+  .accordion-wrap {
+    height: auto;
+  }
+  .accordion-slider {
+    flex-direction: column;
+  }
+  .accordion-slider .slide {
+    flex: none;
+    height: 72px;
+    border-radius: 14px;
+    filter: grayscale(0.5) brightness(0.95);
+    transition:
+      height 0.55s var(--ease-out-expo),
+      filter 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+  .accordion-slider .slide.active {
+    flex: none;
+    height: 300px;
+  }
+  .accordion-slider .slide::before {
+    background: rgba(20, 10, 14, 0.55);
+  }
+  .accordion-slider .slide.active::before {
+    background: linear-gradient(180deg, rgba(20, 10, 14, 0.05) 20%, rgba(20, 10, 14, 0.88) 100%);
+  }
+  .accordion-slider .slide-content,
+  .accordion-slider .slide.active .slide-content {
+    top: 0;
+    bottom: 0;
+    padding: 0 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .accordion-slider .slide.active .slide-content {
+    justify-content: flex-end;
+    padding-bottom: 20px;
+  }
+  .accordion-slider .slide.active .slide-content::before {
+    width: 32px;
+    margin-bottom: 12px;
+  }
+  .accordion-slider .slide-head,
+  .accordion-slider .slide.active .slide-head {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .accordion-slider .slide-title,
+  .accordion-slider .slide.active .slide-title {
+    writing-mode: horizontal-tb;
+    letter-spacing: 0.04em;
+    font-size: 18px;
+  }
+  .accordion-slider .slide.active .slide-title {
+    font-size: 22px;
+  }
+  .accordion-slider .slide-chevron {
+    display: block;
+    margin-left: auto;
+    font-size: 13px;
+    opacity: 0.8;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  .accordion-slider .slide.active .slide-chevron {
+    transform: rotate(180deg);
+  }
+  .accordion-slider .slide.active .slide-subtitle {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
 }
 
 /* === 成果統計：目前範圍標籤 === */

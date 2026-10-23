@@ -29,14 +29,15 @@ createApp({
 
     // ── Accordion Slider ─────────────────────────────────────────────
     const accordionSlides = ref([
-      { title: '街頭活動',   subtitle: '帶領志工向路人說明假新聞的危害',       img: 'img/street.jpg' },
-      { title: '市集擺攤',   subtitle: '參加市集，讓群眾更認識整個議題',       img: 'img/market.jpeg' },
-      { title: '志工培訓',   subtitle: '訓練志工，讓更多人能參與我們的行動',   img: 'img/volunteer.jpg'  },
-      { title: '大眾宣講',   subtitle: '結合關懷據點、社區大學等單位進行宣講', img: 'img/lecture.jpg' },
-      { title: '講師培力',   subtitle: '從一對一訓練，至親身上台累積經驗',     img: 'img/teacher2.jpg' },
-      { title: '教材研發',   subtitle: '親自設計的教材，讓群眾深入認識假新聞', img: 'https://picsum.photos/id/15/1028/750' },
+      { title: '街頭互動',   subtitle: '走進登山口、公園、市集，透過生活案例和民眾交流假訊息、詐騙的危害，並一起練習分辨和用手機查證。',       img: 'img/street.jpg' },
+      { title: '大眾講座',   subtitle: '透過單場次的講座，讓民眾認識假訊息、詐騙、AI生成內容，及煽動情緒的網路資訊，並學會判斷資訊的重要心法與簡單的手機查證操作。', img: 'img/lecture.jpg' },
+      { title: '長期課程',   subtitle: '與社區大學等單位合作開課，從手機的基礎功能使用講解教起，同時將使用手機網路可能遇到的危險與如何保護自己的觀念帶給學員。', img: 'img/lesson.jpg' },
+      /*{ title: '市集擺攤',   subtitle: '參加市集，讓群眾更認識整個議題',       img: 'img/market.jpeg' },*/
+      { title: '志工培訓',   subtitle: '如果有意願成我們志工夥伴，我們會安排從宣講內容到擺攤實戰體驗的完整課程，也會為有意願成為講師的志工夥伴提供講師培訓。',   img: 'img/volunteer.jpg'  },
+      { title: '教師培力',   subtitle: '配合目前中小學對媒體識讀課程的需求，與老師們分享我們推廣媒體識讀的經驗與教材。',     img: 'img/teacher2.jpg' },
+      { title: '種子種子',   subtitle: 'tene~~~~',     img: 'img/market.jpeg' },
     ]);
-    const activeSlideIndex = ref(-1);
+    const activeSlideIndex = ref(0); // 預設展開第一張，區塊不會一片灰
 
     // ── 成果統計 ─────────────────────────────────────────────────────
     const defaultStats = { events: 950, trainers: 25, volunteers: 210, families: '5萬', label: '', stories: [] };
@@ -200,20 +201,17 @@ createApp({
     }
 
     // ── Accordion 方法 ──────────────────────────────────────────────────
-    function setActiveSlide(index) {
-      activeSlideIndex.value = activeSlideIndex.value === index ? -1 : index;
+    // hover / 點擊 / 鍵盤 focus 都只負責「展開」，不會因為重複觸發而收合
+    function openSlide(index) {
+      activeSlideIndex.value = index;
     }
     function nextAccordionSlide() {
-      const next = activeSlideIndex.value === -1
-        ? 0
-        : (activeSlideIndex.value + 1) % accordionSlides.value.length;
-      setActiveSlide(next);
+      const n = accordionSlides.value.length;
+      openSlide((activeSlideIndex.value + 1) % n);
     }
     function prevAccordionSlide() {
-      const prev = activeSlideIndex.value === -1
-        ? accordionSlides.value.length - 1
-        : (activeSlideIndex.value - 1 + accordionSlides.value.length) % accordionSlides.value.length;
-      setActiveSlide(prev);
+      const n = accordionSlides.value.length;
+      openSlide((activeSlideIndex.value - 1 + n) % n);
     }
 
     // ── 成果統計方法 ────────────────────────────────────────────────────
@@ -611,7 +609,7 @@ createApp({
       isSticky, isFabVisible, isFabOpen, isNavOpen, whoAreWeType,
       // 方法
       nextBanner, goToBanner,
-      setActiveSlide,
+      openSlide,
       formatWeekday, formatMonthDay, openArticle,
       clearCounty, nextStory, prevStory,
       toggleFab, closeFabAndScroll, toggleNav, smoothScroll,
