@@ -3816,43 +3816,170 @@ nav a:hover::after {
 /* === 縣市小故事 === */
 #achievement .county-story {
   margin-top: 8px;
-  padding: 20px 8px;
+  padding: 20px 24px 24px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.6);
   box-shadow: 0 12px 32px -18px rgba(155, 85, 102, 0.45);
 }
+#achievement .county-story-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+#achievement .county-story-kicker {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #E8577C;
+}
+#achievement .county-story-pager {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #9B5566;
+  font-variant-numeric: tabular-nums;
+}
+#achievement .county-story-pager button {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #E8577C;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.18s var(--ease-out-quart);
+}
+#achievement .county-story-pager button:hover {
+  background: #E8577C;
+  color: #fff;
+}
+#achievement .county-story-pager button:active {
+  transform: scale(0.9);
+}
+#achievement .county-story-body.has-img {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
 #achievement .county-story-img {
-  min-height: 260px;
+  min-height: 240px;
   background-size: cover;
   background-position: center;
   border-radius: 12px;
 }
-#achievement .county-story-text {
-  display: flex;
-  align-items: center;
+#achievement .county-story-title {
+  margin: 0 0 12px;
+  font-size: 19px;
+  font-weight: 700;
+  color: #4a3a3e;
+  line-height: 1.5;
 }
-#achievement .county-story figure {
-  margin: 0;
+#achievement .county-story-title small {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #FBE1E7;
+  color: #C24A6B;
+  font-size: 12px;
+  font-weight: 500;
+  vertical-align: middle;
+}
+#achievement .county-story-quote {
+  margin: 0 0 14px;
   padding-left: 14px;
   border-left: 4px solid #E8577C;
 }
-#achievement .county-story blockquote p {
-  font-size: 20px;
+#achievement .county-story-quote blockquote {
+  margin: 0;
+  font-size: 18px;
   line-height: 1.7;
   color: #4a3a3e;
 }
+#achievement .county-story-quote figcaption {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #9B5566;
+}
+#achievement .county-story-points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#achievement .county-story-points li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #5a4a4e;
+}
+#achievement .county-story-points li + li {
+  margin-top: 8px;
+}
+#achievement .county-story-points li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.75em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #EE6A8B;
+}
 .story-in-enter-active {
   transition: opacity 0.45s var(--ease-out-expo), transform 0.45s var(--ease-out-expo);
-}
-.story-in-enter-active .county-story-img {
-  transition: transform 0.6s var(--ease-out-expo);
 }
 .story-in-enter-from {
   opacity: 0;
   transform: translateY(18px);
 }
-.story-in-enter-from .county-story-img {
-  transform: scale(1.06);
+/* 翻頁 / 換縣市：內容左右滑動 */
+.story-swap-enter-active {
+  transition: opacity 0.3s var(--ease-out-expo), transform 0.3s var(--ease-out-expo);
+}
+.story-swap-leave-active {
+  transition: opacity 0.12s ease-in, transform 0.12s ease-in;
+}
+.story-swap-enter-from {
+  opacity: 0;
+  transform: translateX(16px);
+}
+.story-swap-leave-to {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+/* 範圍標籤上的取消選取按鈕 */
+#achievement .stats-scope-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 2px;
+  margin-right: -6px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  color: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+#achievement .stats-scope-clear:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 575px) {
+  #achievement .county-story {
+    padding: 16px;
+  }
+  #achievement .county-story-body.has-img {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* === 台灣地圖 === */
@@ -3885,6 +4012,76 @@ nav a:hover::after {
   stroke-width: 1.6;
   transform: translateY(-4px) scale(1.06);
   filter: drop-shadow(0 8px 10px rgba(140, 30, 60, 0.35));
+}
+#taiwan-map .county.is-selected {
+  fill: #D93D67;
+  stroke-width: 1.6;
+}
+/* 外島多為零散小島，白邊會看不見，改用粉色邊線 */
+#taiwan-map .county.is-inset {
+  stroke: #E59AAE;
+  stroke-width: 1.2;
+}
+/* 外島小地圖框 */
+#taiwan-map .inset-frame rect {
+  fill: transparent; /* 外島多為淺色，框底不加白，避免白色邊線糊在一起 */
+  stroke: #D9AEB7;
+  stroke-width: 1.2;
+  stroke-dasharray: 5 4;
+  transition: fill 0.25s ease, stroke 0.25s ease;
+}
+#taiwan-map .inset-frame text {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  fill: #B07A86;
+  transition: fill 0.25s ease;
+}
+#taiwan-map .inset-frame.is-active rect,
+#taiwan-map .inset-frame.is-selected rect {
+  fill: rgba(255, 255, 255, 0.4);
+  stroke: #D93D67;
+  stroke-dasharray: none;
+}
+#taiwan-map .inset-frame.is-active text,
+#taiwan-map .inset-frame.is-selected text {
+  fill: #D93D67;
+}
+#taiwan-map .inset-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+#taiwan-map .inset-frame {
+  transition: opacity 0.6s ease;
+}
+#taiwan-map:not(.is-drawn) .inset-frame {
+  opacity: 0;
+}
+/* 有小故事的標記 */
+#taiwan-map .story-marker {
+  pointer-events: none;
+}
+#taiwan-map .story-marker-dot {
+  fill: #fff;
+  stroke: #D93D67;
+  stroke-width: 3;
+}
+#taiwan-map .story-marker-pulse {
+  fill: #fff;
+  opacity: 0.8;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: marker-pulse 2.4s ease-out infinite;
+}
+@keyframes marker-pulse {
+  from { transform: scale(1);   opacity: 0.8; }
+  to   { transform: scale(2.8); opacity: 0; }
+}
+#taiwan-map:not(.is-drawn) .story-marker {
+  opacity: 0;
+}
+#taiwan-map .story-marker {
+  transition: opacity 0.6s ease 1.2s;
 }
 /* 進場：未捲到時隱藏，捲到後由北往南依序浮現 */
 #taiwan-map:not(.is-drawn) .county {
@@ -3925,6 +4122,13 @@ nav a:hover::after {
   font-size: 15px;
   font-weight: 700;
 }
+#achievement .map-tooltip em {
+  display: block;
+  margin-top: 2px;
+  font-style: normal;
+  font-size: 12px;
+  color: #FFB3C4;
+}
 
 /* 圖例 */
 #achievement .map-legend {
@@ -3934,6 +4138,23 @@ nav a:hover::after {
   margin-top: 8px;
   font-size: 13px;
   color: #9B5566;
+}
+#achievement .map-legend {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#achievement .map-legend-story {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 12px;
+}
+#achievement .map-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid #D93D67;
 }
 #achievement .map-legend-bar {
   width: 140px;

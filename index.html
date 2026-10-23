@@ -453,6 +453,9 @@
 							<transition name="scope-swap" mode="out-in">
 								<span :key="currentStats.label" class="stats-scope-chip" :class="{ 'is-county': currentStats.label }">
 									<i class="fas fa-map-marker-alt"></i>{{ currentStats.label || '全台累計' }}
+									<button v-if="selectedCountyId" type="button" class="stats-scope-clear" aria-label="取消選取縣市" @click="clearCounty">
+										<i class="fas fa-times"></i>
+									</button>
 								</span>
 							</transition>
 						</div>
@@ -490,20 +493,35 @@
 								</div>
 							</div>
 						</div>
-						<!-- 小故事：只在選到有故事的縣市時顯示 -->
+						<!-- 小故事：只在選到有故事的縣市時顯示，可翻頁 -->
 						<transition name="story-in">
-							<div class="row county-story" v-if="currentStats.story">
-								<div class="col-6 county-story-img" :style="{ backgroundImage: `url('${currentStats.story.img}')` }"></div>
-								<div class="col-6 county-story-text">
-									<figure>
-										<blockquote class="blockquote">
-											<p>{{ currentStats.story.quote }}</p>
-										</blockquote>
-										<figcaption class="blockquote-footer">
-											{{ currentStats.story.author }}
-										</figcaption>
-									</figure>
+							<div class="county-story" v-if="currentStory">
+								<div class="county-story-head">
+									<span class="county-story-kicker">小故事</span>
+									<div class="county-story-pager" v-if="currentStats.stories.length > 1">
+										<button type="button" aria-label="上一則" @click="prevStory"><i class="fas fa-chevron-left"></i></button>
+										<span>{{ storyIndex + 1 }} / {{ currentStats.stories.length }}</span>
+										<button type="button" aria-label="下一則" @click="nextStory"><i class="fas fa-chevron-right"></i></button>
+									</div>
 								</div>
+								<transition name="story-swap" mode="out-in">
+									<article :key="currentStats.label + storyIndex" class="county-story-body" :class="{ 'has-img': currentStory.img }">
+										<div v-if="currentStory.img" class="county-story-img" :style="{ backgroundImage: `url('${currentStory.img}')` }"></div>
+										<div class="county-story-text">
+											<h4 class="county-story-title">
+												{{ currentStory.title }}
+												<small v-if="currentStory.year">{{ currentStory.year }}</small>
+											</h4>
+											<figure v-if="currentStory.quote" class="county-story-quote">
+												<blockquote>「{{ currentStory.quote }}」</blockquote>
+												<figcaption v-if="currentStory.author">— {{ currentStory.author }}</figcaption>
+											</figure>
+											<ul v-if="currentStory.points" class="county-story-points">
+												<li v-for="(pt, i) in currentStory.points" :key="i">{{ pt }}</li>
+											</ul>
+										</div>
+									</article>
+								</transition>
 							</div>
 						</transition>
 					</div>
@@ -517,6 +535,7 @@
 							<span>活動場次 少</span>
 							<span class="map-legend-bar"></span>
 							<span>多</span>
+							<span class="map-legend-story"><span class="map-legend-dot"></span>有小故事，點一下可閱讀</span>
 						</div>
 					</div>
 				</div>

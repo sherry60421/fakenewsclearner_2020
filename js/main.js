@@ -1,7 +1,8 @@
 import * as d3 from 'd3';
 import * as topojson from 'topojson-client';
+import { countyStories } from './county-stories.js';
 
-const { createApp, ref, reactive, onMounted, computed } = Vue;
+const { createApp, ref, reactive, onMounted, computed, watch } = Vue;
 const { createVuetify } = Vuetify;
 
 const vuetify = createVuetify();
@@ -38,10 +39,10 @@ createApp({
     const activeSlideIndex = ref(-1);
 
     // ── 成果統計 ─────────────────────────────────────────────────────
-    const defaultStats = { events: 950, trainers: 25, volunteers: 210, families: '5萬', label: '', story: null };
+    const defaultStats = { events: 950, trainers: 25, volunteers: 210, families: '5萬', label: '', stories: [] };
     const currentStats = reactive({ ...defaultStats });
 
-    // 各縣市只有 events & families；story 為選填的小故事
+    // 各縣市只有 events & families；小故事放在 county-stories.js
     const countyStats = {
       // 北部
       '63000': { events: 280, families: '1.5萬', label: '臺北市' },
@@ -52,15 +53,14 @@ createApp({
       '10004': { events: 25,  families: '1000',  label: '新竹縣' },
       '10002': { events: 18,  families: '800',   label: '宜蘭縣' },
       // 中部
-      '66000': { events: 88,  families: '3500',  label: '臺中市',
-                 story: { img: 'img/pass-cat.jpg', quote: '不只田地減少，餐廳生意也沒了... ', author: '北屯登山口的過貓大哥' } },
+      '66000': { events: 88,  families: '3500',  label: '臺中市' },
       '10005': { events: 22,  families: '900',   label: '苗栗縣' },
       '10007': { events: 20,  families: '800',   label: '彰化縣' },
       '10008': { events: 15,  families: '600',   label: '南投縣' },
       '10009': { events: 12,  families: '500',   label: '雲林縣' },
       // 南部
-      '67000': { events: 75,  families: '3000',  label: '高雄市' },
-      '64000': { events: 60,  families: '2500',  label: '臺南市' },
+      '64000': { events: 75,  families: '3000',  label: '高雄市' },
+      '67000': { events: 60,  families: '2500',  label: '臺南市' },
       '10010': { events: 18,  families: '700',   label: '嘉義縣' },
       '10020': { events: 14,  families: '600',   label: '嘉義市' },
       '10013': { events: 10,  families: '400',   label: '屏東縣' },
@@ -217,11 +217,40 @@ createApp({
     }
 
     // ── 成果統計方法 ────────────────────────────────────────────────────
-    function updateStats(data) {
-      Object.assign(currentStats, { story: null }, data);
+    // hover 預覽縣市，點擊則固定選取（方便移到小故事翻頁閱讀）
+    const hoveredCountyId  = ref(null);
+    const selectedCountyId = ref(null);
+    const storyIndex = ref(0);
+    const currentStory = computed(() => currentStats.stories[storyIndex.value] || null);
+
+    function showCounty(id) {
+      const stats = id && countyStats[id];
+      if (stats) {
+        Object.assign(currentStats, stats, { stories: countyStories[id] || [] });
+      } else {
+        Object.assign(currentStats, defaultStats);
+      }
+      storyIndex.value = 0;
     }
-    function resetStats() {
-      Object.assign(currentStats, defaultStats);
+    let shownCountyId = null;
+    function refreshCounty() {
+      const id = hoveredCountyId.value || selectedCountyId.value;
+      if (id !== shownCountyId) {
+        shownCountyId = id;
+        showCounty(id);
+      }
+    }
+
+    function clearCounty() {
+      selectedCountyId.value = null;
+      refreshCounty();
+    }
+    function nextStory() {
+      storyIndex.value = (storyIndex.value + 1) % currentStats.stories.length;
+    }
+    function prevStory() {
+      const n = currentStats.stories.length;
+      storyIndex.value = (storyIndex.value - 1 + n) % n;
     }
 
     // ── 文章列表方法 ────────────────────────────────────────────────────
@@ -326,46 +355,94 @@ createApp({
         .translate([500, 400]);
       const mainPath = d3.geoPath().projection(mainProjection);
 
-      const penghuPath = d3.geoPath().projection(
-        d3.geoMercator().center([119.6, 23.5]).scale(20000).translate([220, 550])
-      );
-      const kinmenPath = d3.geoPath().projection(
-        d3.geoMercator().center([118.4, 24.4]).scale(15000).translate([210, 371])
-      );
-      const matsuPath = d3.geoPath().projection(
-        d3.geoMercator().center([119.9, 26.2]).scale(15000).translate([210, 208])
-      );
-
-      const insetPaths = {
-        '10016': penghuPath,
-        '09020': kinmenPath,
-        '09007': matsuPath,
-      };
-      const INSET_IDS = new Set(Object.keys(insetPaths));
-
       const svg = d3.select('#taiwan-map');
 
-      // 外島虛線框 + 標籤
-      const insetBoxes = [
-        { x: 200, y: 120, w: 180, h: 180, label: '馬祖' },
-        { x: 150, y: 320, w: 100, h: 70,  label: '金門' },
-        { x: 120, y: 440, w: 180, h: 240, label: '澎湖' },
+      // ── 外島小地圖：由上而下排成一欄，投影自動縮放到框內，框線依實際圖形大小包好
+      // 烏坵屬金門縣但離本島很遠，會把金門撐得很小，小地圖中省略
+      const kinmen = counties.features.find(d => d.properties.id === '09020');
+      if (kinmen && kinmen.geometry.type === 'MultiPolygon') {
+        kinmen.geometry.coordinates = kinmen.geometry.coordinates
+          .filter(poly => d3.geoCentroid({ type: 'Polygon', coordinates: poly })[0] < 119);
+      }
+
+      const INSET_COL_X = 180;   // 欄位中心（臺灣西岸最靠左約 x=308）
+      const INSET_PAD   = 14;
+      const INSET_LABEL = 30;    // 框內上方標籤高度
+      const INSET_GAP   = 24;
+      const INSET_W     = 190;   // 三個框統一寬度
+      const insetDefs = [
+        { id: '09007', label: '馬祖', maxH: 140 },
+        { id: '09020', label: '金門', maxH: 100 },
+        { id: '10016', label: '澎湖', maxH: 230 },
       ];
-      insetBoxes.forEach(b => {
-        svg.append('rect')
-          .attr('x', b.x).attr('y', b.y)
-          .attr('width', b.w).attr('height', b.h)
-          .attr('fill', 'none')
-          .attr('stroke', '#D9AEB7')
-          .attr('stroke-width', 1)
-          .attr('stroke-dasharray', '4,3');
-        svg.append('text')
-          .attr('x', b.x + b.w / 2).attr('y', b.y + b.h + 28)
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill', '#B07A86')
-          .text(b.label);
+      const insetPaths = {};
+      const insetBoxes = [];
+      let insetY = 130;
+      insetDefs.forEach(def => {
+        const feature = counties.features.find(d => d.properties.id === def.id);
+        if (!feature) return;
+        const projection = d3.geoMercator().fitSize([INSET_W - INSET_PAD * 2, def.maxH], feature);
+        const path = d3.geoPath().projection(projection);
+        const [[x0, y0], [x1, y1]] = path.bounds(feature);
+        const w = INSET_W;
+        const h = y1 - y0 + INSET_PAD * 2 + INSET_LABEL;
+        const boxX = INSET_COL_X - w / 2;
+        // 把圖形平移到框內水平置中（扣掉 padding 與標籤）
+        const [tx, ty] = projection.translate();
+        projection.translate([
+          tx + boxX + (w - (x1 - x0)) / 2 - x0,
+          ty + insetY + INSET_PAD + INSET_LABEL - y0,
+        ]);
+        insetPaths[def.id] = path;
+        insetBoxes.push({ id: def.id, label: def.label, feature, x: boxX, y: insetY, w, h });
+        insetY += h + INSET_GAP;
       });
+      const INSET_IDS = new Set(Object.keys(insetPaths));
+
+      // 外島虛線框 + 標籤（框本身放在縣市下面，只負責外觀）
+      const insetFrames = svg.append('g')
+        .attr('class', 'inset-frames')
+        .selectAll('g')
+        .data(insetBoxes)
+        .join('g')
+          .attr('class', 'inset-frame');
+      insetFrames.append('rect')
+        .attr('x', b => b.x).attr('y', b => b.y)
+        .attr('width', b => b.w).attr('height', b => b.h)
+        .attr('rx', 10);
+      insetFrames.append('text')
+        .attr('x', b => b.x + INSET_PAD).attr('y', b => b.y + INSET_PAD + 14)
+        .text(b => b.label);
+
+      function enterCounty(event, d, el) {
+        d3.select(el).raise().classed('is-active', true);
+        const id = d.properties.id;
+        const stats = countyStats[id];
+        if (!stats) return;
+        hoveredCountyId.value = id;
+        refreshCounty();
+        const hint = countyStories[id] && selectedCountyId.value !== id
+          ? '<em>點一下閱讀小故事</em>' : '';
+        tooltip
+          .html(`<strong>${stats.label}</strong>${stats.events} 場活動${hint}`)
+          .classed('is-visible', true);
+        moveTooltip(event);
+      }
+      function leaveCounty(el) {
+        d3.select(el).classed('is-active', false);
+        tooltip.classed('is-visible', false);
+        hoveredCountyId.value = null;
+        // 延後一下：直接滑到相鄰縣市時，不會先閃回全台數字
+        setTimeout(refreshCounty, 40);
+      }
+      function clickCounty(event, d) {
+        event.stopPropagation();
+        const id = d.properties.id;
+        if (!countyStats[id]) return;
+        selectedCountyId.value = selectedCountyId.value === id ? null : id;
+        tooltip.select('em').remove();
+        refreshCounty();
+      }
 
       // 繪製縣市：依實體活動場次上色（平方根尺度，避免臺北市把其他縣市壓成同一色）
       const maxEvents = d3.max(Object.values(countyStats), d => d.events);
@@ -384,12 +461,12 @@ createApp({
           .style('top',  (event.clientY - rect.top)  + 'px');
       }
 
-      svg.append('g')
+      const countyPaths = svg.append('g')
         .attr('class', 'counties')
         .selectAll('path')
         .data(counties.features)
         .join('path')
-          .attr('class', 'county')
+          .attr('class', d => INSET_IDS.has(d.properties.id) ? 'county is-inset' : 'county')
           .attr('d', d => {
             const id = d.properties.id;
             return INSET_IDS.has(id) ? insetPaths[id](d) : mainPath(d);
@@ -398,27 +475,61 @@ createApp({
             const stats = countyStats[d.properties.id];
             return stats ? colorScale(stats.events) : '#EDE3E5';
           })
-          .on('mouseenter', function (event, d) {
-            d3.select(this).raise().classed('is-active', true);
-            const stats = countyStats[d.properties.id];
-            if (!stats) return;
-            updateStats(stats);
-            tooltip
-              .html(`<strong>${stats.label}</strong>${stats.events} 場活動`)
-              .classed('is-visible', true);
-            moveTooltip(event);
-          })
+          .on('mouseenter', function (event, d) { enterCounty(event, d, this); })
           .on('mousemove', moveTooltip)
-          .on('mouseleave', function () {
-            d3.select(this).classed('is-active', false);
-            tooltip.classed('is-visible', false);
-            resetStats();
-          })
+          .on('mouseleave', function () { leaveCounty(this); })
+          .on('click', clickCounty)
           // 進場動畫：由北往南依序浮現
           .each(function () {
             const box = this.getBBox();
             this.style.setProperty('--delay', Math.round((box.y + box.height / 2 - 100) * 0.9) + 'ms');
           });
+
+      // 外島島嶼很小不好點：整個框都當作該縣市的感應區
+      const countyPathById = id => countyPaths.filter(d => d.properties.id === id).node();
+      svg.append('g')
+        .attr('class', 'inset-hits')
+        .selectAll('rect')
+        .data(insetBoxes)
+        .join('rect')
+          .attr('class', 'inset-hit')
+          .attr('x', b => b.x).attr('y', b => b.y)
+          .attr('width', b => b.w).attr('height', b => b.h)
+          .attr('rx', 10)
+          .on('mouseenter', (event, b) => {
+            insetFrames.classed('is-active', f => f.id === b.id);
+            enterCounty(event, b.feature, countyPathById(b.id));
+          })
+          .on('mousemove', moveTooltip)
+          .on('mouseleave', (event, b) => {
+            insetFrames.classed('is-active', false);
+            leaveCounty(countyPathById(b.id));
+          })
+          .on('click', (event, b) => clickCounty(event, b.feature));
+
+      // 點地圖空白處取消選取
+      svg.on('click', clearCounty);
+
+      // 選取中的縣市保持高亮
+      watch(selectedCountyId, id => {
+        countyPaths.classed('is-selected', d => d.properties.id === id);
+        insetFrames.classed('is-selected', b => b.id === id);
+      });
+
+      // 有小故事的縣市：在中心點加上標記
+      svg.append('g')
+        .attr('class', 'story-markers')
+        .selectAll('g')
+        .data(counties.features.filter(d => countyStories[d.properties.id]))
+        .join('g')
+          .attr('class', 'story-marker')
+          .attr('transform', d => {
+            const id = d.properties.id;
+            const [x, y] = (INSET_IDS.has(id) ? insetPaths[id] : mainPath).centroid(d);
+            return `translate(${x},${y})`;
+          })
+          .call(g => g.append('circle').attr('class', 'story-marker-pulse').attr('r', 7))
+          .call(g => g.append('circle').attr('class', 'story-marker-dot').attr('r', 7));
 
       // 地圖捲入畫面時才播放進場動畫
       const mapObserver = new IntersectionObserver(entries => {
@@ -493,7 +604,7 @@ createApp({
       // 資料
       bannerSlides, currentBannerIndex,
       accordionSlides, activeSlideIndex,
-      currentStats,
+      currentStats, selectedCountyId, storyIndex, currentStory,
       newsCards, isMoreCardsOpen, isActivityOpen, activeActivity, openActivity,
       articles, isArticleOpen, activeArticle,
       // UI 狀態
@@ -502,6 +613,7 @@ createApp({
       nextBanner, goToBanner,
       setActiveSlide,
       formatWeekday, formatMonthDay, openArticle,
+      clearCounty, nextStory, prevStory,
       toggleFab, closeFabAndScroll, toggleNav, smoothScroll,
     };
   }
