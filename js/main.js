@@ -38,36 +38,38 @@ createApp({
     const activeSlideIndex = ref(-1);
 
     // ── 成果統計 ─────────────────────────────────────────────────────
-    const defaultStats = { events: 950, trainers: 25, volunteers: 210, families: '5萬', label: '' };
+    const defaultStats = { events: 950, trainers: 25, volunteers: 210, families: '5萬', label: '', story: null };
     const currentStats = reactive({ ...defaultStats });
 
+    // 各縣市只有 events & families；story 為選填的小故事
     const countyStats = {
       // 北部
-      '63000': { events: 280, trainers: 8,  volunteers: 62, families: '1.5萬', label: '臺北市' },
-      '65000': { events: 210, trainers: 6,  volunteers: 48, families: '1.2萬', label: '新北市' },
-      '68000': { events: 95,  trainers: 3,  volunteers: 21, families: '4000',  label: '桃園市' },
-      '10017': { events: 42,  trainers: 2,  volunteers: 11, families: '1800',  label: '基隆市' },
-      '10018': { events: 38,  trainers: 1,  volunteers: 8,  families: '1500',  label: '新竹市' },
-      '10004': { events: 25,  trainers: 1,  volunteers: 6,  families: '1000',  label: '新竹縣' },
-      '10002': { events: 18,  trainers: 1,  volunteers: 5,  families: '800',   label: '宜蘭縣' },
+      '63000': { events: 280, families: '1.5萬', label: '臺北市' },
+      '65000': { events: 210, families: '1.2萬', label: '新北市' },
+      '68000': { events: 95,  families: '4000',  label: '桃園市' },
+      '10017': { events: 42,  families: '1800',  label: '基隆市' },
+      '10018': { events: 38,  families: '1500',  label: '新竹市' },
+      '10004': { events: 25,  families: '1000',  label: '新竹縣' },
+      '10002': { events: 18,  families: '800',   label: '宜蘭縣' },
       // 中部
-      '66000': { events: 88,  trainers: 2,  volunteers: 19, families: '3500',  label: '臺中市' },
-      '10005': { events: 22,  trainers: 1,  volunteers: 5,  families: '900',   label: '苗栗縣' },
-      '10007': { events: 20,  trainers: 1,  volunteers: 4,  families: '800',   label: '彰化縣' },
-      '10008': { events: 15,  trainers: 1,  volunteers: 4,  families: '600',   label: '南投縣' },
-      '10009': { events: 12,  trainers: 1,  volunteers: 3,  families: '500',   label: '雲林縣' },
+      '66000': { events: 88,  families: '3500',  label: '臺中市',
+                 story: { img: 'img/pass-cat.jpg', quote: '不只田地減少，餐廳生意也沒了... ', author: '北屯登山口的過貓大哥' } },
+      '10005': { events: 22,  families: '900',   label: '苗栗縣' },
+      '10007': { events: 20,  families: '800',   label: '彰化縣' },
+      '10008': { events: 15,  families: '600',   label: '南投縣' },
+      '10009': { events: 12,  families: '500',   label: '雲林縣' },
       // 南部
-      '67000': { events: 75,  trainers: 2,  volunteers: 17, families: '3000',  label: '高雄市' },
-      '64000': { events: 60,  trainers: 2,  volunteers: 14, families: '2500',  label: '臺南市' },
-      '10010': { events: 18,  trainers: 1,  volunteers: 4,  families: '700',   label: '嘉義縣' },
-      '10020': { events: 14,  trainers: 1,  volunteers: 3,  families: '600',   label: '嘉義市' },
-      '10013': { events: 10,  trainers: 1,  volunteers: 3,  families: '400',   label: '屏東縣' },
+      '67000': { events: 75,  families: '3000',  label: '高雄市' },
+      '64000': { events: 60,  families: '2500',  label: '臺南市' },
+      '10010': { events: 18,  families: '700',   label: '嘉義縣' },
+      '10020': { events: 14,  families: '600',   label: '嘉義市' },
+      '10013': { events: 10,  families: '400',   label: '屏東縣' },
       // 東部 & 外島
-      '10015': { events: 8,   trainers: 1,  volunteers: 2,  families: '300',   label: '花蓮縣' },
-      '10014': { events: 6,   trainers: 1,  volunteers: 2,  families: '250',   label: '臺東縣' },
-      '10016': { events: 5,   trainers: 1,  volunteers: 1,  families: '200',   label: '澎湖縣' },
-      '09020': { events: 4,   trainers: 1,  volunteers: 1,  families: '150',   label: '金門縣' },
-      '09007': { events: 3,   trainers: 1,  volunteers: 1,  families: '100',   label: '連江縣' },
+      '10015': { events: 8,   families: '300',   label: '花蓮縣' },
+      '10014': { events: 6,   families: '250',   label: '臺東縣' },
+      '10016': { events: 5,   families: '200',   label: '澎湖縣' },
+      '09020': { events: 4,   families: '150',   label: '金門縣' },
+      '09007': { events: 3,   families: '100',   label: '連江縣' },
     };
 
     // ── 文章卡片 ─────────────────────────────────────────────────────
@@ -216,7 +218,7 @@ createApp({
 
     // ── 成果統計方法 ────────────────────────────────────────────────────
     function updateStats(data) {
-      Object.assign(currentStats, data);
+      Object.assign(currentStats, { story: null }, data);
     }
     function resetStats() {
       Object.assign(currentStats, defaultStats);
@@ -280,6 +282,7 @@ createApp({
     function countUp(target, suffix, duration, key) {
       const start = performance.now();
       function step(now) {
+        if (currentStats.label) return; // 使用者已選縣市，停止動畫避免覆蓋
         const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 4); // ease-out-quart
         const val = Math.round(eased * target);
@@ -353,37 +356,80 @@ createApp({
           .attr('x', b.x).attr('y', b.y)
           .attr('width', b.w).attr('height', b.h)
           .attr('fill', 'none')
-          .attr('stroke', '#bbb')
+          .attr('stroke', '#D9AEB7')
           .attr('stroke-width', 1)
           .attr('stroke-dasharray', '4,3');
         svg.append('text')
           .attr('x', b.x + b.w / 2).attr('y', b.y + b.h + 28)
           .attr('text-anchor', 'middle')
           .attr('font-size', '20px')
-          .attr('fill', '#888')
+          .attr('fill', '#B07A86')
           .text(b.label);
       });
 
-      // 繪製縣市
-      svg.selectAll('path')
+      // 繪製縣市：依實體活動場次上色（平方根尺度，避免臺北市把其他縣市壓成同一色）
+      const maxEvents = d3.max(Object.values(countyStats), d => d.events);
+      const colorScale = d3.scaleSqrt()
+        .domain([0, maxEvents])
+        .range(['#FCE8EC', '#EE6A8B'])
+        .interpolate(d3.interpolateLab);
+
+      const mapWrap = document.querySelector('.map-wrap');
+      const tooltip = d3.select('.map-tooltip');
+
+      function moveTooltip(event) {
+        const rect = mapWrap.getBoundingClientRect();
+        tooltip
+          .style('left', (event.clientX - rect.left) + 'px')
+          .style('top',  (event.clientY - rect.top)  + 'px');
+      }
+
+      svg.append('g')
+        .attr('class', 'counties')
+        .selectAll('path')
         .data(counties.features)
         .join('path')
+          .attr('class', 'county')
           .attr('d', d => {
             const id = d.properties.id;
             return INSET_IDS.has(id) ? insetPaths[id](d) : mainPath(d);
           })
-          .attr('fill', '#e8e8e8')
-          .attr('stroke', '#999')
-          .attr('stroke-width', 0.8)
-          .on('mouseenter', function (event, d) {
-            d3.select(this).attr('fill', '#f5204b');
+          .style('--fill', d => {
             const stats = countyStats[d.properties.id];
-            if (stats) updateStats(stats);
+            return stats ? colorScale(stats.events) : '#EDE3E5';
           })
+          .on('mouseenter', function (event, d) {
+            d3.select(this).raise().classed('is-active', true);
+            const stats = countyStats[d.properties.id];
+            if (!stats) return;
+            updateStats(stats);
+            tooltip
+              .html(`<strong>${stats.label}</strong>${stats.events} 場活動`)
+              .classed('is-visible', true);
+            moveTooltip(event);
+          })
+          .on('mousemove', moveTooltip)
           .on('mouseleave', function () {
-            d3.select(this).attr('fill', '#e8e8e8');
+            d3.select(this).classed('is-active', false);
+            tooltip.classed('is-visible', false);
             resetStats();
+          })
+          // 進場動畫：由北往南依序浮現
+          .each(function () {
+            const box = this.getBBox();
+            this.style.setProperty('--delay', Math.round((box.y + box.height / 2 - 100) * 0.9) + 'ms');
           });
+
+      // 地圖捲入畫面時才播放進場動畫
+      const mapObserver = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          svg.classed('is-drawn', true);
+          // 進場結束後移除動畫，避免 hover 時 raise() 重新插入節點又重播一次
+          setTimeout(() => svg.classed('is-settled', true), 1700);
+          mapObserver.disconnect();
+        }
+      }, { threshold: 0.25 });
+      mapObserver.observe(svg.node());
 
       // ── Scroll Reveal ────────────────────────────────────────────────
       const revealTargets = [
@@ -391,7 +437,6 @@ createApp({
         '.exprience-content',
         '#what-we-do .col-md-4',
         '#recent-activity .col-md-4',
-        '#achievement .col-lg-3',
         '#news .col-md-4',
         '.contact-area .col-lg-4',
         '.video-area .col-lg-6',

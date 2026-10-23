@@ -3751,13 +3751,200 @@ nav a:hover::after {
 	}
 }
 
-/* === 地圖 hover 數字切換動畫 === */
-#achievement .number[data-stat] {
-  transition: opacity 0.15s ease, transform 0.15s ease;
+/* === 成果統計：目前範圍標籤 === */
+#achievement .stats-scope {
+  display: flex;
+  justify-content: center;
+  min-height: 36px;
 }
-#achievement .number[data-stat].stat-fade {
+#achievement .stats-scope-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  color: #9B5566;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+#achievement .stats-scope-chip.is-county {
+  background: #E8577C;
+  color: #fff;
+  box-shadow: 0 6px 16px -6px rgba(232, 87, 124, 0.6);
+}
+#achievement .stats-scope-chip i {
+  font-size: 13px;
+}
+
+/* 數字使用等寬數字，count-up 時不抖動 */
+#achievement .single-service .number {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 範圍標籤 / 數字切換：舊的往上淡出、新的由下浮現 */
+.scope-swap-enter-active,
+.stat-swap-enter-active {
+  transition: opacity 0.32s var(--ease-out-expo), transform 0.32s var(--ease-out-expo);
+}
+.scope-swap-leave-active,
+.stat-swap-leave-active {
+  transition: opacity 0.12s ease-in, transform 0.12s ease-in;
+}
+.scope-swap-enter-from,
+.stat-swap-enter-from {
   opacity: 0;
-  transform: translateY(-6px);
+  transform: translateY(14px) scale(0.96);
+}
+.scope-swap-leave-to,
+.stat-swap-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* 結訓講師、志工人數重新出現時淡入（離場不做動畫，避免版面卡住） */
+.stat-pop-enter-active {
+  transition: opacity 0.4s var(--ease-out-quart), transform 0.4s var(--ease-out-quart);
+}
+.stat-pop-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+/* === 縣市小故事 === */
+#achievement .county-story {
+  margin-top: 8px;
+  padding: 20px 8px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 12px 32px -18px rgba(155, 85, 102, 0.45);
+}
+#achievement .county-story-img {
+  min-height: 260px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+}
+#achievement .county-story-text {
+  display: flex;
+  align-items: center;
+}
+#achievement .county-story figure {
+  margin: 0;
+  padding-left: 14px;
+  border-left: 4px solid #E8577C;
+}
+#achievement .county-story blockquote p {
+  font-size: 20px;
+  line-height: 1.7;
+  color: #4a3a3e;
+}
+.story-in-enter-active {
+  transition: opacity 0.45s var(--ease-out-expo), transform 0.45s var(--ease-out-expo);
+}
+.story-in-enter-active .county-story-img {
+  transition: transform 0.6s var(--ease-out-expo);
+}
+.story-in-enter-from {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.story-in-enter-from .county-story-img {
+  transform: scale(1.06);
+}
+
+/* === 台灣地圖 === */
+#achievement .map-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+#taiwan-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+#taiwan-map .county {
+  fill: var(--fill);
+  stroke: #fff;
+  stroke-width: 1;
+  stroke-linejoin: round;
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    fill 0.25s ease,
+    transform 0.35s var(--ease-out-expo),
+    filter 0.35s var(--ease-out-expo);
+}
+#taiwan-map .county.is-active {
+  fill: #D93D67;
+  stroke-width: 1.6;
+  transform: translateY(-4px) scale(1.06);
+  filter: drop-shadow(0 8px 10px rgba(140, 30, 60, 0.35));
+}
+/* 進場：未捲到時隱藏，捲到後由北往南依序浮現 */
+#taiwan-map:not(.is-drawn) .county {
+  opacity: 0;
+}
+#taiwan-map.is-drawn:not(.is-settled) .county {
+  animation: county-in 0.7s var(--ease-out-expo) var(--delay, 0ms) backwards;
+}
+@keyframes county-in {
+  from { opacity: 0; transform: translateY(-14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* 滑鼠提示 */
+#achievement .map-tooltip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  pointer-events: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(60, 30, 40, 0.88);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 10px)) scale(0.92);
+  transition: opacity 0.18s ease, transform 0.18s var(--ease-out-quart);
+}
+#achievement .map-tooltip.is-visible {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 16px)) scale(1);
+}
+#achievement .map-tooltip strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* 圖例 */
+#achievement .map-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #9B5566;
+}
+#achievement .map-legend-bar {
+  width: 140px;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #FCE8EC, #EE6A8B);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #taiwan-map.is-drawn .county { animation-delay: 0ms !important; }
+  #taiwan-map .county.is-active { transform: none; }
 }
 
 #who-are-we .button-list{

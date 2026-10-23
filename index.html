@@ -446,54 +446,78 @@
 			<div class="container">
 				<h2>我們的成果</h2>
 				<p>自 2018 年成立，至 2025 年 12 月為止，我們的足跡已遍佈從北至南每一個縣市。</p>
-				<div class="row align-items-center">
+				<div class="row align-items-start">
 					<!-- 左欄：數字統計 -->
 					<div class="col-lg-6 col-sm-12">
+						<div class="stats-scope">
+							<transition name="scope-swap" mode="out-in">
+								<span :key="currentStats.label" class="stats-scope-chip" :class="{ 'is-county': currentStats.label }">
+									<i class="fas fa-map-marker-alt"></i>{{ currentStats.label || '全台累計' }}
+								</span>
+							</transition>
+						</div>
 						<div class="row" style="padding-bottom: 20px;">
 							<div class="col-6">
 								<div class="single-service d-flex flex-column align-items-center">
-									<div class="number">{{ currentStats.events }}</div>
+									<transition name="stat-swap" mode="out-in">
+										<div class="number" :key="currentStats.label">{{ currentStats.events }}</div>
+									</transition>
 									<div class="desc mt-30"><h4 class="mb-10">實體活動</h4></div>
 								</div>
 							</div>
-							<div class="col-6">
-								<div class="single-service d-flex flex-column align-items-center">
-									<div class="number">{{ currentStats.trainers }}</div>
-									<div class="desc mt-30"><h4 class="mb-10">結訓講師</h4></div>
+							<transition name="stat-pop">
+								<div class="col-6" v-if="!currentStats.label">
+									<div class="single-service d-flex flex-column align-items-center">
+										<div class="number">{{ currentStats.trainers }}</div>
+										<div class="desc mt-30"><h4 class="mb-10">結訓講師</h4></div>
+									</div>
 								</div>
-							</div>
-							<div class="col-6">
-								<div class="single-service d-flex flex-column align-items-center">
-									<div class="number">{{ currentStats.volunteers }}</div>
-									<div class="desc mt-30"><h4 class="mb-10">志工人數</h4></div>
+							</transition>
+							<transition name="stat-pop">
+								<div class="col-6" v-if="!currentStats.label">
+									<div class="single-service d-flex flex-column align-items-center">
+										<div class="number">{{ currentStats.volunteers }}</div>
+										<div class="desc mt-30"><h4 class="mb-10">志工人數</h4></div>
+									</div>
 								</div>
-							</div>
+							</transition>
 							<div class="col-6">
 								<div class="single-service d-flex flex-column align-items-center">
-									<div class="number">{{ currentStats.families }}</div>
+									<transition name="stat-swap" mode="out-in">
+										<div class="number" :key="currentStats.label">{{ currentStats.families }}</div>
+									</transition>
 									<div class="desc mt-30"><h4 class="mb-10">受保護的家庭</h4></div>
 								</div>
 							</div>
 						</div>
-						<!-- 小故事 -->
-						<div class="row">
-							<div class="col-6" style="background-image: url('img/pass-cat.jpg'); min-height: 300px; background-size: contain; background-repeat: no-repeat; background-position: center;">
+						<!-- 小故事：只在選到有故事的縣市時顯示 -->
+						<transition name="story-in">
+							<div class="row county-story" v-if="currentStats.story">
+								<div class="col-6 county-story-img" :style="{ backgroundImage: `url('${currentStats.story.img}')` }"></div>
+								<div class="col-6 county-story-text">
+									<figure>
+										<blockquote class="blockquote">
+											<p>{{ currentStats.story.quote }}</p>
+										</blockquote>
+										<figcaption class="blockquote-footer">
+											{{ currentStats.story.author }}
+										</figcaption>
+									</figure>
+								</div>
 							</div>
-							<div class="col-6" style="display: flex; align-items: center;">
-								<figure style="border-left: 4px solid #ADADAD;padding-left: 8px;">
-									<blockquote class="blockquote">
-										<p>不只田地減少，餐廳生意也沒了... </p>
-									</blockquote>
-									<figcaption class="blockquote-footer">
-										北屯登山口的過貓大哥
-									</figcaption>
-								</figure>
-							</div>
-						</div>
+						</transition>
 					</div>
 					<!-- 右欄：台灣地圖 -->
-					<div class="col-lg-6 col-sm-12 d-flex justify-content-center">
-						<svg id="taiwan-map" viewBox="0 100 800 800" preserveAspectRatio="xMidYMid meet" style="width:100%;max-width:600px;height:auto;cursor: pointer;"></svg>
+					<div class="col-lg-6 col-sm-12 d-flex flex-column align-items-center">
+						<div class="map-wrap">
+							<svg id="taiwan-map" viewBox="0 100 800 800" preserveAspectRatio="xMidYMid meet"></svg>
+							<div class="map-tooltip" aria-hidden="true"></div>
+						</div>
+						<div class="map-legend" aria-hidden="true">
+							<span>活動場次 少</span>
+							<span class="map-legend-bar"></span>
+							<span>多</span>
+						</div>
 					</div>
 				</div>
 				<div class="row">
