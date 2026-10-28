@@ -106,10 +106,14 @@
 						<div class="main-menubar d-flex align-items-center">
 							<nav :class="{ open: isNavOpen }">
 								<a href="#who-are-we"  @click.prevent="smoothScroll('#who-are-we')">我們是誰</a>
-								<a href="#what-we-do"  @click.prevent="smoothScroll('#what-we-do')">邀請/合作</a>
+								<a href="#support-us"  @click.prevent="smoothScroll('#support-us')">邀請/合作</a>
 								<a href="#support-us"  @click.prevent="smoothScroll('#support-us')">加入我們</a>
 								<a href="#support-us"  @click.prevent="smoothScroll('#support-us')">支持我們</a>
-								<a href="">Social Medias</a>
+								<div class="social-links">
+									<a href="https://www.facebook.com/FakeNewsCleaner" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+									<a href="https://www.instagram.com/fakenewscleaner/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+									<a href="https://www.plurk.com/fakenewscleaner" target="_blank" rel="noopener" aria-label="Plurk" title="Plurk"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M6.5 3h7a5.5 5.5 0 0 1 0 11h-3.5v7h-3.5zM10 6.5v4h3.25a2 2 0 0 0 0-4z"/></svg></a>
+								</div>
 							</nav>
 							<div class="menu-bar d-lg-none" @click="toggleNav">
 								<span :class="isNavOpen ? 'lnr lnr-cross' : 'lnr lnr-menu'"></span>
@@ -123,208 +127,158 @@
 		<!-- Start Banner Area -->
 		<section class="banner-area relative">
 			<div class="overlay overlay-bg"></div>
-			<div class="container">
-				<div class="row fullscreen align-items-center justify-content-center">
-					<div class="col-lg-12">
-						<!-- Start Carousel -->
-						<div id="bannerCarousel" class="carousel slide">
-							<!-- 指示點 -->
-							<div class="carousel-indicators">
-								<button
-									v-for="(slide, index) in bannerSlides"
-									:key="index"
-									type="button"
-									:class="{ active: currentBannerIndex === index }"
-									:aria-current="currentBannerIndex === index ? 'true' : undefined"
-									:aria-label="'Slide ' + (index + 1)"
-									@click="goToBanner(index)"
-								></button>
-							</div>
-							<!-- 輪播內容 -->
-							<div class="carousel-inner text-center">
-								<div
-									v-for="(slide, index) in bannerSlides"
-									:key="index"
-									:class="['carousel-item', { active: currentBannerIndex === index }]"
-								>
-									<div class="banner-content">
-										<h1>{{ slide.title }}</h1>
-										<p class="text-white mb-40">{{ slide.subtitle }}</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- End Carousel -->
+			<!-- Start Carousel：左右滑動軌道（頭尾各放一張複製，讓循環無縫） -->
+			<div
+				class="banner-track"
+				:class="{ 'no-transition': !bannerAnimate || bannerDragging }"
+				:style="{ transform: 'translateX(calc(' + (-bannerPos * 100) + '% + ' + bannerDragX + 'px))' }"
+				@transitionend.self="onBannerTransitionEnd"
+				@pointerdown="onBannerPointerDown"
+				@pointermove="onBannerPointerMove"
+				@pointerup="onBannerPointerUp"
+				@pointercancel="onBannerPointerUp"
+				@click.capture="onBannerClick"
+			>
+				<div
+					v-for="(slide, pos) in bannerTrack"
+					:key="pos"
+					:class="['banner-slide', { 'is-image': slide.img }]"
+					:aria-hidden="pos !== bannerPos ? 'true' : undefined"
+				>
+					<!-- 圖片海報（文字已在圖上） -->
+					<component
+						v-if="slide.img"
+						:is="slide.link ? 'a' : 'div'"
+						class="banner-image"
+						:href="slide.link"
+						:target="slide.link ? '_blank' : undefined"
+						:rel="slide.link ? 'noopener' : undefined"
+						:tabindex="pos !== bannerPos ? -1 : undefined"
+						draggable="false"
+					>
+						<div class="banner-image-blur" :style="{ backgroundImage: 'url(\'' + slide.img + '\')' }"></div>
+						<img :src="slide.img" :alt="slide.alt" :style="{ objectPosition: slide.focus }" draggable="false">
+					</component>
+					<!-- 文字 slide -->
+					<div v-else class="container banner-content">
+						<h1>{{ slide.title }}</h1>
+						<p class="text-white mb-40">{{ slide.subtitle }}</p>
 					</div>
-					<!--
-					<div class="banner-button-wrapper">
-						<a href="#who-are-we" class="genric-btn primary circle" target="_blank"><i
-								class="fas fa-caret-down"></i>認識我們</a>
-						<a href="#support-us" class="genric-btn primary ms-20 circle" target="_blank"><i
-								class="fas fa-caret-down"></i>支持我們</a>
-					</div>
-					-->
 				</div>
 			</div>
+			<!-- 指示點 -->
+			<div class="banner-indicators">
+				<button
+					v-for="(slide, index) in bannerSlides"
+					:key="index"
+					type="button"
+					:class="{ active: currentBannerIndex === index }"
+					:aria-current="currentBannerIndex === index ? 'true' : undefined"
+					:aria-label="'Slide ' + (index + 1)"
+					@click="goToBanner(index)"
+				></button>
+			</div>
+			<!-- End Carousel -->
 		</section>
 		<!-- End Banner Area -->
 		<!-- Start Exprience Area -->
 		<section id="who-are-we">
 			<div class="container">
-				<div class="row">
-					<div class="col-12 col-md-10">
-						<div v-if="whoAreWeType === 'main'" class="row">
-							<div class="col-12 col-md-4">
-								<div class="exprience-thumb" style="background: url(img/back.jpg);"></div>
-							</div>
-							<div class="col-12 col-md-8 who-we-are-content">
-								<h2>我們是誰？</h2>
-								<p>假新聞清潔劑於 2018 年 12 月，由一群關心社會的青年、上班族與父母自發組成。</p>
-								<p>我們看見，網路與科技已經成為生活的一部分，也讓我們面對的資訊風險越來越複雜：
-									<ul>
-										<li>ㄧ篇新奇有趣的網路貼文新知，可能是錯誤資訊或詐騙</li>
-										<li>一則照片或影音，也可能是 AI 生成的內容</li>
-										<li>我們每天使用網路，住址等資訊，卻不一定知道它們最後被誰掌握、可能帶來什麼風險</li>
-									</ul>
-								</p>
-								<p>時間軸、願景、核心價值、使命（個別按鈕取代我們是誰區塊的文字）</p>
+				<h2 class="who-heading">關於我們</h2>
+				<div class="who-tabs" role="tablist" aria-label="關於我們">
+					<button
+						v-for="tab in whoAreWeTabs"
+						:key="tab.key"
+						type="button"
+						role="tab"
+						:id="'who-tab-' + tab.key"
+						:aria-selected="whoAreWeType === tab.key"
+						aria-controls="who-panel"
+						:class="['who-tab', { active: whoAreWeType === tab.key }]"
+						@click="whoAreWeType = tab.key; $event.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' })"
+					>
+						<i :class="tab.icon" aria-hidden="true"></i>{{ tab.label }}
+					</button>
+				</div>
+				<div id="who-panel" class="who-panel" role="tabpanel" :aria-labelledby="'who-tab-' + whoAreWeType">
+					<transition name="who-fade" mode="out-in">
+						<div v-if="whoAreWeType === 'main'" key="main" class="who-intro">
+							<div class="who-intro-img" style="background-image: url(img/back.jpg);"></div>
+							<div class="who-intro-body">
+								<span class="who-kicker">SINCE 2018</span>
+								<h3>一群關心社會的青年、上班族與父母</h3>
+								<p>假新聞清潔劑於 2018 年 12 月自發組成。我們看見，網路與科技已經成為生活的一部分，也讓我們面對的資訊風險越來越複雜：</p>
+								<ul class="who-risks">
+									<li><i class="fas fa-newspaper" aria-hidden="true"></i><span>一篇新奇有趣的網路貼文新知，可能是錯誤資訊或詐騙</span></li>
+									<li><i class="fas fa-robot" aria-hidden="true"></i><span>一則照片或影音，也可能是 AI 生成的內容</span></li>
+									<li><i class="fas fa-user-shield" aria-hidden="true"></i><span>我們每天在網路留下住址等個人資訊，卻不一定知道它們最後被誰掌握、可能帶來什麼風險</span></li>
+								</ul>
 							</div>
 						</div>
-						<div v-if="whoAreWeType === 'timeline'" class="row justify-center">
-							<v-timeline direction="horizontal" align="start" class="col-12 overflow-x-auto">
-								<v-timeline-item
-									dot-color="primary"
-									size="small"
-								>
-									<template v-slot:opposite>
-										<span class="text-h6 font-weight-bold text-primary">2018</span>
-									</template>
-									<v-card elevation="2" min-width="140">
-										<v-card-title class="text-subtitle-1 font-weight-bold">街頭行動</v-card-title>
-										<v-card-text>理事長：你來我社區！走上街頭，推廣假新聞識讀意識。</v-card-text>
-									</v-card>
-								</v-timeline-item>
 
-								<v-timeline-item
-									dot-color="primary"
-									size="small"
-								>
-									<template v-slot:opposite>
-										<span class="text-h6 font-weight-bold text-primary">2019</span>
-									</template>
-									<v-card elevation="2" min-width="140">
-										<v-card-title class="text-subtitle-1 font-weight-bold">大眾宣講＋種子志工培訓</v-card-title>
-										<v-card-text>深入各地社區，培訓在地種子志工，擴大識讀影響力。</v-card-text>
-									</v-card>
-								</v-timeline-item>
-
-								<v-timeline-item
-									dot-color="primary"
-									size="small"
-								>
-									<template v-slot:opposite>
-										<span class="text-h6 font-weight-bold text-primary">2020</span>
-									</template>
-									<v-card elevation="2" min-width="140">
-										<v-card-title class="text-subtitle-1 font-weight-bold">成立協會＋長期課程</v-card-title>
-										<v-card-text>正式成立協會，推出系統化長期課程，足跡遍及全台。</v-card-text>
-									</v-card>
-								</v-timeline-item>
-
-								<v-timeline-item
-									dot-color="primary"
-									size="small"
-								>
-									<template v-slot:opposite>
-										<span class="text-h6 font-weight-bold text-primary">2023</span>
-									</template>
-									<v-card elevation="2" min-width="140">
-										<v-card-title class="text-subtitle-1 font-weight-bold">教師研習營</v-card-title>
-										<v-card-text>與學校合作，舉辦教師研習營，將識讀教育帶入校園。</v-card-text>
-									</v-card>
-								</v-timeline-item>
-
-								<v-timeline-item
-									dot-color="orange-darken-2"
-									size="small"
-									icon="mdi-star"
-								>
-									<template v-slot:opposite>
-										<span class="text-h6 font-weight-bold text-orange-darken-2">現今</span>
-									</template>
-									<v-card elevation="2" color="orange-lighten-5" min-width="140">
-										<v-card-title class="text-subtitle-1 font-weight-bold">持續深耕</v-card-title>
-										<v-card-text>服務對象涵蓋社區據點、社區大學、教會、企業、國高中、大學科系等。</v-card-text>
-									</v-card>
-								</v-timeline-item>
-							</v-timeline>
+						<div v-else-if="whoAreWeType === 'timeline'" key="timeline" class="who-timeline">
+							<ol class="who-timeline-list">
+								<li v-for="item in timelineItems" :key="item.year" :class="['who-timeline-item', { 'is-now': item.isNow }]">
+									<span class="who-timeline-year">{{ item.year }}</span>
+									<span class="who-timeline-dot" aria-hidden="true"><i v-if="item.isNow" class="fas fa-star"></i></span>
+									<div class="who-timeline-card">
+										<h4>{{ item.title }}</h4>
+										<p>{{ item.desc }}</p>
+									</div>
+								</li>
+							</ol>
 						</div>
-						<div v-if="whoAreWeType === 'vision'" class="row justify-center">
-							<div class="col-12 col-md-11 vision">
-								<span class="vision-label">VISION・願景</span>
-								<blockquote class="vision-quote">
-									<p>秉持對話與同理，學會辨識與查證，<br class="d-none d-md-inline">保護自己與親友。</p>
-									<p class="vision-quote-sub">願意修正自己、也願意接受對方。</p>
-								</blockquote>
-								<div class="row vision-pillars">
-									<div class="col-12 col-md-4">
-										<div class="vision-pillar">
-											<span class="vision-pillar-icon"><i class="fas fa-comments" aria-hidden="true"></i></span>
-											<h4>對話與同理</h4>
-											<p>先傾聽，再交流</p>
-										</div>
+
+						<div v-else-if="whoAreWeType === 'vision'" key="vision" class="vision">
+							<span class="vision-label">VISION・願景</span>
+							<blockquote class="vision-quote">
+								<p>秉持對話與同理，學會辨識與查證，<br class="d-none d-md-inline">保護自己與親友。</p>
+								<p class="vision-quote-sub">願意修正自己、也願意接受對方。</p>
+							</blockquote>
+							<div class="row vision-pillars">
+								<div class="col-12 col-md-4">
+									<div class="vision-pillar">
+										<span class="vision-pillar-icon"><i class="fas fa-comments" aria-hidden="true"></i></span>
+										<h4>對話與同理</h4>
+										<p>先傾聽，再交流</p>
 									</div>
-									<div class="col-12 col-md-4">
-										<div class="vision-pillar">
-											<span class="vision-pillar-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
-											<h4>辨識與查證</h4>
-											<p>保護自己與親友</p>
-										</div>
+								</div>
+								<div class="col-12 col-md-4">
+									<div class="vision-pillar">
+										<span class="vision-pillar-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+										<h4>辨識與查證</h4>
+										<p>保護自己與親友</p>
 									</div>
-									<div class="col-12 col-md-4">
-										<div class="vision-pillar">
-											<span class="vision-pillar-icon"><i class="fas fa-hands-helping" aria-hidden="true"></i></span>
-											<h4>修正與接納</h4>
-											<p>修正自己，接受對方</p>
-										</div>
+								</div>
+								<div class="col-12 col-md-4">
+									<div class="vision-pillar">
+										<span class="vision-pillar-icon"><i class="fas fa-hands-helping" aria-hidden="true"></i></span>
+										<h4>修正與接納</h4>
+										<p>修正自己，接受對方</p>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div v-if="whoAreWeType === 'coreValue'" class="row">
-							核心價值
-						</div>
-						<div v-if="whoAreWeType === 'mission'" class="row justify-center">
-							<v-card
-								class="col-12 col-md-10 pa-6 text-center"
-								elevation="0"
-								color="transparent"
-							>
-								<v-icon size="48" color="primary" class="mb-4">mdi-hand-heart-outline</v-icon>
-								<v-card-text class="pa-0">
-									<p class="text-h5 font-weight-bold text-primary mb-4" style="line-height: 1.8;">
-										為了我們及下一代，用心思辨、用愛溝通，<br/>
-										透過面對面的共同思考與探索，<br/>
-										連結人與人的真實與良善
-									</p>
-									<v-divider class="my-4 mx-auto" style="max-width: 80px; border-width: 2px; border-color: rgb(var(--v-theme-primary));"></v-divider>
-									<p class="text-body-1 text-medium-emphasis font-italic" style="line-height: 1.9;">
-										Connecting the world's truth and goodness<br/>
-										for ourselves and the generations to come,<br/>
-										with mindful thinking, with loving communication.
-									</p>
-								</v-card-text>
-							</v-card>
+
+						<!-- 核心價值：內容待協會提供，先顯示整理中 -->
+						<div v-else-if="whoAreWeType === 'coreValue'" key="coreValue" class="who-pending">
+							<span class="vision-label">CORE VALUES・核心價值</span>
+							<span class="who-pending-icon"><i class="fas fa-seedling" aria-hidden="true"></i></span>
+							<p>核心價值內容整理中，敬請期待。</p>
 						</div>
 
-					</div>
-					<div class="button-list col-12 col-md-2">
-						<a class="genric-btn primary circle" @click="whoAreWeType = 'main'">我們是誰？</a>
-						<a class="genric-btn primary circle" @click="whoAreWeType = 'timeline'">時間軸</a>
-						<a class="genric-btn primary circle" @click="whoAreWeType = 'vision'">願景</a>
-						<a class="genric-btn primary circle" @click="whoAreWeType = 'coreValue'">核心價值</a>
-						<a class="genric-btn primary circle" @click="whoAreWeType = 'mission'">使命</a>
-					</div>
+						<div v-else key="mission" class="who-mission">
+							<span class="vision-label">MISSION・使命</span>
+							<span class="who-mission-icon"><i class="fas fa-hand-holding-heart" aria-hidden="true"></i></span>
+							<p class="who-mission-zh">為了我們及下一代，用心思辨、用愛溝通，<br>透過面對面的共同思考與探索，<br>連結人與人的真實與良善</p>
+							<span class="who-mission-rule" aria-hidden="true"></span>
+							<p class="who-mission-en" lang="en">
+								Connecting the world's truth and goodness<br>
+								for ourselves and the generations to come,<br>
+								with mindful thinking, with loving communication.
+							</p>
+						</div>
+					</transition>
 				</div>
 			</div>
 		</section>
@@ -711,7 +665,11 @@
 				<a href="#what-we-do"  @click.prevent="closeFabAndScroll('#what-we-do')">行動</a>
 				<a href="#achievement" @click.prevent="closeFabAndScroll('#achievement')">成果</a>
 				<a href="#support-us"  @click.prevent="closeFabAndScroll('#support-us')">支持我們</a>
-				<a href="">Social Medias</a>
+				<div class="social-links">
+					<a href="https://www.facebook.com/FakeNewsCleaner" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+					<a href="https://www.instagram.com/fakenewscleaner/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+					<a href="https://www.plurk.com/fakenewscleaner" target="_blank" rel="noopener" aria-label="Plurk" title="Plurk"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M6.5 3h7a5.5 5.5 0 0 1 0 11h-3.5v7h-3.5zM10 6.5v4h3.25a2 2 0 0 0 0-4z"/></svg></a>
+				</div>
 			</div>
 			<button id="mobile-fab"
 				:aria-expanded="String(isFabOpen)"

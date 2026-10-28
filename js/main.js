@@ -12,7 +12,20 @@ createApp({
   setup() {
 
     // ── Banner 輪播 ──────────────────────────────────────────────────
+    // 有 img 的是整張圖片海報（文字已在圖上），不顯示遮罩與標題
+    // focus：圖片填滿畫面需裁切時，優先保留的位置（object-position）
     const bannerSlides = ref([
+      {
+        img: 'img/banner_sample1.png',
+        link: 'https://ckycumis.azurewebsites.net/Class.aspx?class=2188',
+        focus: 'left center',
+        alt: '報名開始囉！116 年鎮港園社區大學：用手機成為生活達人'
+      },
+      {
+        img: 'img/banner_sample2.png',
+        focus: 'center top',
+        alt: '2026 年度台北、台中、高雄教學研習營圓滿完成，感謝與會的公教人員一同為媒體素養教育努力'
+      },
       {
         title: '假新聞清潔劑',
         subtitle: '從每一個人、每一個家庭開始，一起累積社會的資訊韌性，修復彼此的信任，讓下一代也能在更健康的資訊環境中成長。'
@@ -26,7 +39,19 @@ createApp({
         subtitle: '匯聚各方力量，透過科技與教育雙管齊下，守護民主社會的資訊自由與真實。'
       },
     ]);
-    const currentBannerIndex = ref(0);
+    // 軌道 = [最後一張複製, ...全部, 第一張複製]，bannerPos 是軌道上的位置
+    const bannerTrack = computed(() => {
+      const list = bannerSlides.value;
+      return [list[list.length - 1], ...list, list[0]];
+    });
+    const bannerPos = ref(1);
+    const bannerAnimate = ref(true);
+    const bannerDragging = ref(false);
+    const bannerDragX = ref(0);
+    const currentBannerIndex = computed(() => {
+      const n = bannerSlides.value.length;
+      return (bannerPos.value - 1 + n) % n;
+    });
 
     // ── Accordion Slider ─────────────────────────────────────────────
     const accordionSlides = ref([
@@ -177,13 +202,95 @@ createApp({
     const isFabOpen  = ref(false);
     const isNavOpen  = ref(false);
     const whoAreWeType = ref('main'); // main: 我們是誰, timeline: 時間軸, vision: 願景, coreValue: 核心價值, mission: 使命
+    const whoAreWeTabs = [
+      { key: 'main',      label: '我們是誰', icon: 'fas fa-users' },
+      { key: 'timeline',  label: '時間軸',   icon: 'fas fa-history' },
+      { key: 'vision',    label: '願景',     icon: 'fas fa-eye' },
+      { key: 'coreValue', label: '核心價值', icon: 'fas fa-gem' },
+      { key: 'mission',   label: '使命',     icon: 'fas fa-flag' },
+    ];
+    const timelineItems = [
+      { year: '2018', title: '街頭行動',             desc: '理事長：你來我社區！走上街頭，推廣假新聞識讀意識。' },
+      { year: '2019', title: '大眾宣講＋種子志工培訓', desc: '深入各地社區，培訓在地種子志工，擴大識讀影響力。' },
+      { year: '2020', title: '成立協會＋長期課程',     desc: '正式成立協會，推出系統化長期課程，足跡遍及全台。' },
+      { year: '2023', title: '教師研習營',           desc: '與學校合作，舉辦教師研習營，將識讀教育帶入校園。' },
+      { year: '現今', title: '持續深耕',             desc: '服務對象涵蓋社區據點、社區大學、教會、企業、國高中、大學科系等。', isNow: true },
+    ];
 
     // ── Banner 方法 ─────────────────────────────────────────────────────
+    let bannerTimer = null;
+    let bannerDragStartX = 0;
+    let bannerDragMoved = false;
+
+    function moveBanner(pos) {
+      bannerAnimate.value = true;
+      bannerPos.value = pos;
+    }
     function nextBanner() {
-      currentBannerIndex.value = (currentBannerIndex.value + 1) % bannerSlides.value.length;
+      // 分頁在背景時 transitionend 可能沒觸發，先把超出範圍的位置拉回來
+      if (bannerPos.value > bannerSlides.value.length) onBannerTransitionEnd();
+      moveBanner(bannerPos.value + 1);
+    }
+    function prevBanner() {
+      if (bannerPos.value < 1) onBannerTransitionEnd();
+      moveBanner(bannerPos.value - 1);
     }
     function goToBanner(index) {
-      currentBannerIndex.value = index;
+      moveBanner(index + 1);
+      restartBannerTimer();
+    }
+    function restartBannerTimer() {
+      clearInterval(bannerTimer);
+      bannerTimer = setInterval(() => {
+        if (!document.hidden) nextBanner();
+      }, 5000);
+    }
+    // 滑到頭尾的複製張後，無動畫跳回對應的真正那張
+    function onBannerTransitionEnd() {
+      const n = bannerSlides.value.length;
+      if (bannerPos.value > n) {
+        bannerAnimate.value = false;
+        bannerPos.value = 1;
+      } else if (bannerPos.value < 1) {
+        bannerAnimate.value = false;
+        bannerPos.value = n;
+      }
+    }
+
+    // 觸控／滑鼠拖曳切換
+    function onBannerPointerDown(e) {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      onBannerTransitionEnd();
+      bannerDragging.value = true;
+      bannerDragMoved = false;
+      bannerDragStartX = e.clientX;
+      bannerDragX.value = 0;
+      clearInterval(bannerTimer);
+    }
+    function onBannerPointerMove(e) {
+      if (!bannerDragging.value) return;
+      bannerDragX.value = e.clientX - bannerDragStartX;
+      if (Math.abs(bannerDragX.value) > 5 && !bannerDragMoved) {
+        bannerDragMoved = true;
+        e.currentTarget.setPointerCapture(e.pointerId);
+      }
+    }
+    function onBannerPointerUp() {
+      if (!bannerDragging.value) return;
+      const dx = bannerDragX.value;
+      bannerDragging.value = false;
+      bannerDragX.value = 0;
+      if (dx < -50) nextBanner();
+      else if (dx > 50) prevBanner();
+      restartBannerTimer();
+    }
+    // 拖曳結束時不要觸發海報連結
+    function onBannerClick(e) {
+      if (bannerDragMoved) {
+        e.preventDefault();
+        e.stopPropagation();
+        bannerDragMoved = false;
+      }
     }
 
     // ── Accordion 方法 ──────────────────────────────────────────────────
@@ -321,7 +428,7 @@ createApp({
       onScroll();
 
       // Banner 自動輪播（每 5 秒）
-      setInterval(nextBanner, 5000);
+      restartBannerTimer();
 
       // 鍵盤控制 Accordion
       document.addEventListener('keydown', (e) => {
@@ -528,7 +635,7 @@ createApp({
 
       // ── Scroll Reveal ────────────────────────────────────────────────
       const revealTargets = [
-        '.exprience-thumb',
+        '.who-intro-img',
         '.exprience-content',
         '#what-we-do .col-md-4',
         '#recent-activity .col-md-4',
@@ -586,15 +693,16 @@ createApp({
 
     return {
       // 資料
-      bannerSlides, currentBannerIndex,
+      bannerSlides, bannerTrack, bannerPos, bannerAnimate, bannerDragging, bannerDragX, currentBannerIndex,
       accordionSlides, activeSlideIndex,
       currentStats, selectedCountyId, storyIndex, currentStory,
       newsCards, isMoreCardsOpen, isActivityOpen, activeActivity, openActivity,
       articles, isArticleOpen, activeArticle,
       // UI 狀態
-      isSticky, isFabVisible, isFabOpen, isNavOpen, whoAreWeType,
+      isSticky, isFabVisible, isFabOpen, isNavOpen, whoAreWeType, whoAreWeTabs, timelineItems,
       // 方法
-      nextBanner, goToBanner,
+      nextBanner, goToBanner, onBannerTransitionEnd,
+      onBannerPointerDown, onBannerPointerMove, onBannerPointerUp, onBannerClick,
       openSlide,
       formatWeekday, formatMonthDay, openArticle,
       clearCounty, nextStory, prevStory,
